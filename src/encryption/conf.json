@@ -1,0 +1,3 @@
+{ "PrivateKeyFile" : "key.pri",
+  "PublicKeyFile" : "key.pub"
+}
