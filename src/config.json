@@ -1,7 +1,0 @@
-{
-	"Db": {
-		"Name": "authdb",
-		"User": "postgres",
-		"Password": "zippo42"
-	}
-}
