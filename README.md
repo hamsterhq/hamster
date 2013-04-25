@@ -1,0 +1,1 @@
+Hamster is a parse.com like BaaS
