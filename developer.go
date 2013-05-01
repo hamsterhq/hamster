@@ -74,9 +74,7 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//check if email unique
-
-	//create password
+	//encrypt password
 
 	//profile details
 	session := s.db.GetSession()
