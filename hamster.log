@@ -1,237 +1,318 @@
-2013/04/30 02:18:01 ********Server Startup*********
-2013/04/30 02:18:01 ********++++++++++++++*********
-2013/04/30 02:18:01 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:01 developers collection indexed!
-CreateDev: 2013/04/30 02:18:01 bson objectId ObjectIdHex("517edc81cde9e8342b000001")
-CreateDev: 2013/04/30 02:18:01 encoded token: GUYTOZLEMM4DCY3EMU4WKOBTGQZGEMBQGAYDAMI= 
-CreateDev: 2013/04/30 02:18:01 error in inserting data for: &{ObjectIdHex("517edc81cde9e8342b000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:18:01.593694037 +0530 IST 2013-04-30 02:18:01.59369424 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:18:01 ********Server Startup*********
-2013/04/30 02:18:01 ********++++++++++++++*********
-2013/04/30 02:18:01 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:01 developers collection indexed!
-CreateDev: 2013/04/30 02:18:01 bson objectId ObjectIdHex("517edc81cde9e8342b000002")
-CreateDev: 2013/04/30 02:18:01 encoded token: GUYTOZLEMM4DCY3EMU4WKOBTGQZGEMBQGAYDAMQ= 
-CreateDev: 2013/04/30 02:18:01 error in inserting data for: &{ObjectIdHex("517edc81cde9e8342b000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:18:01.59623182 +0530 IST 2013-04-30 02:18:01.596232008 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:18:01 response: internal server error
-2013/04/30 02:18:01 ********Server Startup*********
-2013/04/30 02:18:01 ********++++++++++++++*********
-2013/04/30 02:18:01 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:01 developers collection indexed!
-CreateDev: 2013/04/30 02:18:01 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:18:01 response: email is empty
-2013/04/30 02:18:51 ********Server Startup*********
-2013/04/30 02:18:51 ********++++++++++++++*********
-2013/04/30 02:18:51 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:51 developers collection indexed!
-CreateDev: 2013/04/30 02:18:51 bson objectId ObjectIdHex("517edcb3cde9e83446000001")
-CreateDev: 2013/04/30 02:18:51 encoded token: NTE3ZWRjYjNjZGU5ZTgzNDQ2MDAwMDAx 
-CreateDev: 2013/04/30 02:18:51 error in inserting data for: &{ObjectIdHex("517edcb3cde9e83446000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:18:51.3760213 +0530 IST 2013-04-30 02:18:51.376021457 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:18:51 ********Server Startup*********
-2013/04/30 02:18:51 ********++++++++++++++*********
-2013/04/30 02:18:51 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:51 developers collection indexed!
-CreateDev: 2013/04/30 02:18:51 bson objectId ObjectIdHex("517edcb3cde9e83446000002")
-CreateDev: 2013/04/30 02:18:51 encoded token: NTE3ZWRjYjNjZGU5ZTgzNDQ2MDAwMDAy 
-CreateDev: 2013/04/30 02:18:51 error in inserting data for: &{ObjectIdHex("517edcb3cde9e83446000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:18:51.378625733 +0530 IST 2013-04-30 02:18:51.378625899 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:18:51 response: internal server error
-2013/04/30 02:18:51 ********Server Startup*********
-2013/04/30 02:18:51 ********++++++++++++++*********
-2013/04/30 02:18:51 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:18:51 developers collection indexed!
-CreateDev: 2013/04/30 02:18:51 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:18:51 response: email is empty
-2013/04/30 02:22:44 ********Server Startup*********
-2013/04/30 02:22:44 ********++++++++++++++*********
-2013/04/30 02:22:44 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:22:44 developers collection indexed!
-CreateDev: 2013/04/30 02:22:44 bson objectId ObjectIdHex("517edd9ccde9e83490000001")
-CreateDev: 2013/04/30 02:22:44 encoded token: MjAxMy0wNC0zMCAwMjoyMjo0NCArMDUzMCBJU1Qx 
-CreateDev: 2013/04/30 02:22:44 error in inserting data for: &{ObjectIdHex("517edd9ccde9e83490000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:22:44.12649633 +0530 IST 2013-04-30 02:22:44.126496471 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:22:44 ********Server Startup*********
-2013/04/30 02:22:44 ********++++++++++++++*********
-2013/04/30 02:22:44 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:22:44 developers collection indexed!
-CreateDev: 2013/04/30 02:22:44 bson objectId ObjectIdHex("517edd9ccde9e83490000002")
-CreateDev: 2013/04/30 02:22:44 encoded token: MjAxMy0wNC0zMCAwMjoyMjo0NCArMDUzMCBJU1Qy 
-CreateDev: 2013/04/30 02:22:44 error in inserting data for: &{ObjectIdHex("517edd9ccde9e83490000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:22:44.129149755 +0530 IST 2013-04-30 02:22:44.12914987 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:22:44 response: internal server error
-2013/04/30 02:22:44 ********Server Startup*********
-2013/04/30 02:22:44 ********++++++++++++++*********
-2013/04/30 02:22:44 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:22:44 developers collection indexed!
-CreateDev: 2013/04/30 02:22:44 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:22:44 response: email is empty
-2013/04/30 02:23:21 ********Server Startup*********
-2013/04/30 02:23:21 ********++++++++++++++*********
-2013/04/30 02:23:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:23:21 developers collection indexed!
-CreateDev: 2013/04/30 02:23:21 bson objectId ObjectIdHex("517eddc1cde9e834b3000001")
-CreateDev: 2013/04/30 02:23:21 encoded token: MjAxMy0wNC0zMCAwMjoyMzoyMSArMDUzMCBJU1Qx 
-CreateDev: 2013/04/30 02:23:21 error in inserting data for: &{ObjectIdHex("517eddc1cde9e834b3000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:23:21.279714961 +0530 IST 2013-04-30 02:23:21.279715099 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:23:21 ********Server Startup*********
-2013/04/30 02:23:21 ********++++++++++++++*********
-2013/04/30 02:23:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:23:21 developers collection indexed!
-CreateDev: 2013/04/30 02:23:21 bson objectId ObjectIdHex("517eddc1cde9e834b3000002")
-CreateDev: 2013/04/30 02:23:21 encoded token: MjAxMy0wNC0zMCAwMjoyMzoyMSArMDUzMCBJU1Qy 
-CreateDev: 2013/04/30 02:23:21 error in inserting data for: &{ObjectIdHex("517eddc1cde9e834b3000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:23:21.28231891 +0530 IST 2013-04-30 02:23:21.282319025 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:23:21 response: internal server error
-2013/04/30 02:23:21 ********Server Startup*********
-2013/04/30 02:23:21 ********++++++++++++++*********
-2013/04/30 02:23:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:23:21 developers collection indexed!
-CreateDev: 2013/04/30 02:23:21 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:23:21 response: email is empty
-2013/04/30 02:36:18 ********Server Startup*********
-2013/04/30 02:36:18 ********++++++++++++++*********
-2013/04/30 02:36:18 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:36:18 developers collection indexed!
-CreateDev: 2013/04/30 02:36:18 bson objectId ObjectIdHex("517ee0cacde9e83595000001")
-CreateDev: 2013/04/30 02:36:18 encoded token: MjAxMy0wNC0zMCAwMjozNjoxOCArMDUzMCBJU1Qx 
-CreateDev: 2013/04/30 02:36:18 error in inserting data for: &{ObjectIdHex("517ee0cacde9e83595000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:36:18.839849837 +0530 IST 2013-04-30 02:36:18.839849965 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:36:18 ********Server Startup*********
-2013/04/30 02:36:18 ********++++++++++++++*********
-2013/04/30 02:36:18 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:36:18 developers collection indexed!
-CreateDev: 2013/04/30 02:36:18 bson objectId ObjectIdHex("517ee0cacde9e83595000002")
-CreateDev: 2013/04/30 02:36:18 encoded token: MjAxMy0wNC0zMCAwMjozNjoxOCArMDUzMCBJU1Qy 
-CreateDev: 2013/04/30 02:36:18 error in inserting data for: &{ObjectIdHex("517ee0cacde9e83595000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:36:18.842372792 +0530 IST 2013-04-30 02:36:18.84237292 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:36:18 response: internal server error
-2013/04/30 02:36:18 ********Server Startup*********
-2013/04/30 02:36:18 ********++++++++++++++*********
-2013/04/30 02:36:18 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:36:18 developers collection indexed!
-CreateDev: 2013/04/30 02:36:18 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:36:18 response: email is empty
-2013/04/30 02:38:26 ********Server Startup*********
-2013/04/30 02:38:26 ********++++++++++++++*********
-2013/04/30 02:38:26 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:38:26 developers collection indexed!
-CreateDev: 2013/04/30 02:38:26 bson objectId ObjectIdHex("517ee14acde9e835d3000001")
-CreateDev: 2013/04/30 02:38:26 encoded token: NTE3ZWUxNGFjZGU5ZTgzNWQzMDAwMDAx 
-CreateDev: 2013/04/30 02:38:26 decoded token: 517ee14acde9e835d3000001 
-CreateDev: 2013/04/30 02:38:26 error in inserting data for: &{ObjectIdHex("517ee14acde9e835d3000001")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:38:26.351787684 +0530 IST 2013-04-30 02:38:26.351787808 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-2013/04/30 02:38:26 ********Server Startup*********
-2013/04/30 02:38:26 ********++++++++++++++*********
-2013/04/30 02:38:26 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:38:26 developers collection indexed!
-CreateDev: 2013/04/30 02:38:26 bson objectId ObjectIdHex("517ee14acde9e835d3000002")
-CreateDev: 2013/04/30 02:38:26 encoded token: NTE3ZWUxNGFjZGU5ZTgzNWQzMDAwMDAy 
-CreateDev: 2013/04/30 02:38:26 decoded token: 517ee14acde9e835d3000002 
-CreateDev: 2013/04/30 02:38:26 error in inserting data for: &{ObjectIdHex("517ee14acde9e835d3000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:38:26.354425962 +0530 IST 2013-04-30 02:38:26.354426078 +0530 IST}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:38:26 response: internal server error
-2013/04/30 02:38:26 ********Server Startup*********
-2013/04/30 02:38:26 ********++++++++++++++*********
-2013/04/30 02:38:26 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:38:26 developers collection indexed!
-CreateDev: 2013/04/30 02:38:26 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC}, email is empty 
-test: 2013/04/30 02:38:26 response: email is empty
-2013/04/30 02:42:21 ********Server Startup*********
-2013/04/30 02:42:21 ********++++++++++++++*********
-2013/04/30 02:42:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:42:21 developers collection indexed!
-CreateDev: 2013/04/30 02:42:21 bson objectId ObjectIdHex("517ee235cde9e83612000001")
-CreateDev: 2013/04/30 02:42:21 encoded token: NTE3ZWUyMzVjZGU5ZTgzNjEyMDAwMDAx 
-CreateDev: 2013/04/30 02:42:21 created new developer: &{Id:ObjectIdHex("517ee235cde9e83612000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password: Created:2013-04-30 02:42:21.543274382 +0530 IST Updated:2013-04-30 02:42:21.543274562 +0530 IST UrlToken:NTE3ZWUyMzVjZGU5ZTgzNjEyMDAwMDAx}, id: %v(MISSING)
-test: 2013/04/30 02:42:21 response: {
+2013/05/08 16:47:03 ********Server Startup*********
+2013/05/08 16:47:03 ********++++++++++++++*********
+2013/05/08 16:47:03 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:47:03 developers collection indexed!
+CreateDev: 2013/05/08 16:47:04 password-salt 
+%!(EXTRA string=$2a$10$gj3.zRfYrZFpnb/I7fNsF.XFCDpac/5ZOQLEC4MTMXiaUtYZfogI., string=56697bc1406d119e806e31f98335f903)
+CreateDev: 2013/05/08 16:47:04 encoded token: NTE4YTM0MzBjZGU5ZTgyNjc2MDAwMDAx 
+CreateDev: 2013/05/08 16:47:04 created new developer: &{Id:ObjectIdHex("518a3430cde9e82676000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$gj3.zRfYrZFpnb/I7fNsF.XFCDpac/5ZOQLEC4MTMXiaUtYZfogI. Salt:56697bc1406d119e806e31f98335f903 Created:2013-05-08 16:47:04.158775055 +0530 IST Updated:2013-05-08 16:47:04.158775175 +0530 IST UrlToken:NTE4YTM0MzBjZGU5ZTgyNjc2MDAwMDAx}, id: %v(MISSING)
+test: 2013/05/08 16:47:04 response: {
   "c": "",
   "s": 200,
   "d": {
-    "id": "517ee235cde9e83612000001",
+    "id": "518a3430cde9e82676000001",
     "parentId": "",
     "name": "adnaan",
     "email": "badr.adnaan@gmail.com",
     "verified": false,
-    "password": "",
-    "created": "2013-04-30T02:42:21.543274382+05:30",
-    "updated": "2013-04-30T02:42:21.543274562+05:30",
-    "urltoken": "NTE3ZWUyMzVjZGU5ZTgzNjEyMDAwMDAx"
+    "password": "$2a$10$gj3.zRfYrZFpnb/I7fNsF.XFCDpac/5ZOQLEC4MTMXiaUtYZfogI.",
+    "salt": "56697bc1406d119e806e31f98335f903",
+    "created": "2013-05-08T16:47:04.158775055+05:30",
+    "updated": "2013-05-08T16:47:04.158775175+05:30",
+    "urltoken": "NTE4YTM0MzBjZGU5ZTgyNjc2MDAwMDAx"
   },
   "e": ""
 }
-2013/04/30 02:42:21 ********Server Startup*********
-2013/04/30 02:42:21 ********++++++++++++++*********
-2013/04/30 02:42:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:42:21 developers collection indexed!
-CreateDev: 2013/04/30 02:42:21 bson objectId ObjectIdHex("517ee235cde9e83612000002")
-CreateDev: 2013/04/30 02:42:21 encoded token: NTE3ZWUyMzVjZGU5ZTgzNjEyMDAwMDAy 
-CreateDev: 2013/04/30 02:42:21 created new developer: &{Id:ObjectIdHex("517ee235cde9e83612000002") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password: Created:2013-04-30 02:42:21.545976064 +0530 IST Updated:2013-04-30 02:42:21.545976188 +0530 IST UrlToken:NTE3ZWUyMzVjZGU5ZTgzNjEyMDAwMDAy}, id: %v(MISSING)
-2013/04/30 02:42:21 ********Server Startup*********
-2013/04/30 02:42:21 ********++++++++++++++*********
-2013/04/30 02:42:21 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:42:21 developers collection indexed!
-CreateDev: 2013/04/30 02:42:21 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
-test: 2013/04/30 02:42:21 response: email is empty
-2013/04/30 02:44:38 ********Server Startup*********
-2013/04/30 02:44:38 ********++++++++++++++*********
-2013/04/30 02:44:38 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:44:38 failed indexing developers, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-CreateDev: 2013/04/30 02:44:38 bson objectId ObjectIdHex("517ee2becde9e83641000001")
-CreateDev: 2013/04/30 02:44:38 encoded token: NTE3ZWUyYmVjZGU5ZTgzNjQxMDAwMDAx 
-CreateDev: 2013/04/30 02:44:38 created new developer: &{Id:ObjectIdHex("517ee2becde9e83641000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password: Created:2013-04-30 02:44:38.944755187 +0530 IST Updated:2013-04-30 02:44:38.944755324 +0530 IST UrlToken:NTE3ZWUyYmVjZGU5ZTgzNjQxMDAwMDAx}, id: %v(MISSING)
-test: 2013/04/30 02:44:38 response: {
+2013/05/08 16:47:04 ********Server Startup*********
+2013/05/08 16:47:04 ********++++++++++++++*********
+2013/05/08 16:47:04 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:47:04 developers collection indexed!
+CreateDev: 2013/05/08 16:47:04 password-salt 
+%!(EXTRA string=$2a$10$3lBF1FGHEpKqa6yqQi0jauzU/NSFhcb.wn78aIROqXP.hp2IN1oYO, string=2d86b1f64013e5e780804ca57c1078b1)
+CreateDev: 2013/05/08 16:47:04 encoded token: NTE4YTM0MzBjZGU5ZTgyNjc2MDAwMDAy 
+CreateDev: 2013/05/08 16:47:04 error in inserting data for: &{ObjectIdHex("518a3430cde9e82676000002")  adnaan badr.adnaan@gmail.com false $2a$10$3lBF1FGHEpKqa6yqQi0jauzU/NSFhcb.wn78aIROqXP.hp2IN1oYO 2d86b1f64013e5e780804ca57c1078b1 2013-05-08 16:47:04.408035708 +0530 IST 2013-05-08 16:47:04.408035856 +0530 IST NTE4YTM0MzBjZGU5ZTgyNjc2MDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/08 16:47:04 response: internal server error
+2013/05/08 16:47:04 ********Server Startup*********
+2013/05/08 16:47:04 ********++++++++++++++*********
+2013/05/08 16:47:04 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:47:04 developers collection indexed!
+CreateDev: 2013/05/08 16:47:04 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/08 16:47:04 response: email is empty
+2013/05/08 16:58:17 ********Server Startup*********
+2013/05/08 16:58:17 ********++++++++++++++*********
+2013/05/08 16:58:17 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:58:17 developers collection indexed!
+CreateDev: 2013/05/08 16:58:17 password-salt 
+%!(EXTRA string=$2a$10$UMXCjlV4so7JoJBMVNFSYOm76PXsvr4J1Er3gayuYWMPLYhorf39W, string=e4c415ee4081e76780129f4308df5b85)
+CreateDev: 2013/05/08 16:58:17 encoded token: NTE4YTM2ZDFjZGU5ZTgyNzBmMDAwMDAx 
+CreateDev: 2013/05/08 16:58:17 created new developer: &{Id:ObjectIdHex("518a36d1cde9e8270f000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$UMXCjlV4so7JoJBMVNFSYOm76PXsvr4J1Er3gayuYWMPLYhorf39W Salt:e4c415ee4081e76780129f4308df5b85 Created:2013-05-08 16:58:17.981369869 +0530 IST Updated:2013-05-08 16:58:17.981369945 +0530 IST UrlToken:NTE4YTM2ZDFjZGU5ZTgyNzBmMDAwMDAx}, id: %v(MISSING)
+test: 2013/05/08 16:58:17 response: {
   "c": "",
   "s": 200,
   "d": {
-    "id": "517ee2becde9e83641000001",
+    "id": "518a36d1cde9e8270f000001",
     "parentId": "",
     "name": "adnaan",
     "email": "badr.adnaan@gmail.com",
     "verified": false,
-    "password": "",
-    "created": "2013-04-30T02:44:38.944755187+05:30",
-    "updated": "2013-04-30T02:44:38.944755324+05:30",
-    "urltoken": "NTE3ZWUyYmVjZGU5ZTgzNjQxMDAwMDAx"
+    "password": "$2a$10$UMXCjlV4so7JoJBMVNFSYOm76PXsvr4J1Er3gayuYWMPLYhorf39W",
+    "salt": "e4c415ee4081e76780129f4308df5b85",
+    "created": "2013-05-08T16:58:17.981369869+05:30",
+    "updated": "2013-05-08T16:58:17.981369945+05:30",
+    "urltoken": "NTE4YTM2ZDFjZGU5ZTgyNzBmMDAwMDAx"
   },
   "e": ""
 }
-2013/04/30 02:44:38 ********Server Startup*********
-2013/04/30 02:44:38 ********++++++++++++++*********
-2013/04/30 02:44:38 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:44:38 failed indexing developers, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-CreateDev: 2013/04/30 02:44:38 bson objectId ObjectIdHex("517ee2becde9e83641000002")
-CreateDev: 2013/04/30 02:44:38 encoded token: NTE3ZWUyYmVjZGU5ZTgzNjQxMDAwMDAy 
-CreateDev: 2013/04/30 02:44:38 created new developer: &{Id:ObjectIdHex("517ee2becde9e83641000002") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password: Created:2013-04-30 02:44:38.948357226 +0530 IST Updated:2013-04-30 02:44:38.948357305 +0530 IST UrlToken:NTE3ZWUyYmVjZGU5ZTgzNjQxMDAwMDAy}, id: %v(MISSING)
-2013/04/30 02:44:38 ********Server Startup*********
-2013/04/30 02:44:38 ********++++++++++++++*********
-2013/04/30 02:44:38 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:44:38 failed indexing developers, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-CreateDev: 2013/04/30 02:44:38 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
-test: 2013/04/30 02:44:38 response: email is empty
-2013/04/30 02:45:05 ********Server Startup*********
-2013/04/30 02:45:05 ********++++++++++++++*********
-2013/04/30 02:45:05 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:45:05 developers collection indexed!
-CreateDev: 2013/04/30 02:45:05 bson objectId ObjectIdHex("517ee2d9cde9e83660000001")
-CreateDev: 2013/04/30 02:45:05 encoded token: NTE3ZWUyZDljZGU5ZTgzNjYwMDAwMDAx 
-CreateDev: 2013/04/30 02:45:05 created new developer: &{Id:ObjectIdHex("517ee2d9cde9e83660000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password: Created:2013-04-30 02:45:05.30686245 +0530 IST Updated:2013-04-30 02:45:05.306862515 +0530 IST UrlToken:NTE3ZWUyZDljZGU5ZTgzNjYwMDAwMDAx}, id: %v(MISSING)
-test: 2013/04/30 02:45:05 response: {
+2013/05/08 16:58:17 ********Server Startup*********
+2013/05/08 16:58:17 ********++++++++++++++*********
+2013/05/08 16:58:17 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:58:17 developers collection indexed!
+CreateDev: 2013/05/08 16:58:18 password-salt 
+%!(EXTRA string=$2a$10$ZuJhBlWc0exCJHtz9.3D0.YIDw2EJPxtCUcvRux7WJDXAUYjsbwSm, string=00aa2da440faa2e68083aa6788c2a232)
+CreateDev: 2013/05/08 16:58:18 encoded token: NTE4YTM2ZDJjZGU5ZTgyNzBmMDAwMDAy 
+CreateDev: 2013/05/08 16:58:18 error in inserting data for: &{ObjectIdHex("518a36d2cde9e8270f000002")  adnaan badr.adnaan@gmail.com false $2a$10$ZuJhBlWc0exCJHtz9.3D0.YIDw2EJPxtCUcvRux7WJDXAUYjsbwSm 00aa2da440faa2e68083aa6788c2a232 2013-05-08 16:58:18.231458543 +0530 IST 2013-05-08 16:58:18.231458657 +0530 IST NTE4YTM2ZDJjZGU5ZTgyNzBmMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/08 16:58:18 response: internal server error
+2013/05/08 16:58:18 ********Server Startup*********
+2013/05/08 16:58:18 ********++++++++++++++*********
+2013/05/08 16:58:18 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 16:58:18 developers collection indexed!
+CreateDev: 2013/05/08 16:58:18 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/08 16:58:18 response: email is empty
+2013/05/08 19:18:31 ********Server Startup*********
+2013/05/08 19:18:31 ********++++++++++++++*********
+2013/05/08 19:18:31 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 19:18:31 developers collection indexed!
+CreateDev: 2013/05/08 19:18:31 password-salt 
+%!(EXTRA string=$2a$10$97UFVNj38K3Yb/tKQuThFetaJgxh.IYkdvNv7excVyOeLEefYl5uq, string=033b116c406d1e23808b5b205b63f37a)
+CreateDev: 2013/05/08 19:18:31 error in inserting data for: &{ObjectIdHex("518a57afcde9e82b5a000001")  adnaan badr.adnaan@gmail.com false $2a$10$97UFVNj38K3Yb/tKQuThFetaJgxh.IYkdvNv7excVyOeLEefYl5uq 033b116c406d1e23808b5b205b63f37a 2013-05-08 19:18:31.999388392 +0530 IST 2013-05-08 19:18:31.999388529 +0530 IST NTE4YTU3YWZjZGU5ZTgyYjVhMDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/08 19:18:32 ********Server Startup*********
+2013/05/08 19:18:32 ********++++++++++++++*********
+2013/05/08 19:18:32 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 19:18:32 developers collection indexed!
+CreateDev: 2013/05/08 19:18:32 password-salt 
+%!(EXTRA string=$2a$10$mO5QexyEBaI6zs2Me1AMDu1jRlvfhlYL3X0rm9rj6ojvogytzsTIa, string=b06670d34036870980890e62cb3338d5)
+CreateDev: 2013/05/08 19:18:32 error in inserting data for: &{ObjectIdHex("518a57b0cde9e82b5a000002")  adnaan badr.adnaan@gmail.com false $2a$10$mO5QexyEBaI6zs2Me1AMDu1jRlvfhlYL3X0rm9rj6ojvogytzsTIa b06670d34036870980890e62cb3338d5 2013-05-08 19:18:32.24875169 +0530 IST 2013-05-08 19:18:32.248751835 +0530 IST NTE4YTU3YjBjZGU5ZTgyYjVhMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/08 19:18:32 response: internal server error
+2013/05/08 19:18:32 ********Server Startup*********
+2013/05/08 19:18:32 ********++++++++++++++*********
+2013/05/08 19:18:32 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/08 19:18:32 developers collection indexed!
+CreateDev: 2013/05/08 19:18:32 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/08 19:18:32 response: email is empty
+2013/05/09 13:51:05 ********Server Startup*********
+2013/05/09 13:51:05 ********++++++++++++++*********
+2013/05/09 13:51:05 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:05 developers collection indexed!
+CreateDev: 2013/05/09 13:51:05 password-salt 
+%!(EXTRA string=$2a$10$LCm.N4UZ8UZ7DUFR72aYDOBT8JE83GR63y74VdJh..7jLaiF8fm6i, string=87e2181f40e575fd802c402b95c1b9d7)
+CreateDev: 2013/05/09 13:51:05 created new developer: &{Id:ObjectIdHex("518b5c71cde9e80f36000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$LCm.N4UZ8UZ7DUFR72aYDOBT8JE83GR63y74VdJh..7jLaiF8fm6i Salt:87e2181f40e575fd802c402b95c1b9d7 Created:2013-05-09 13:51:05.684279067 +0530 IST Updated:2013-05-09 13:51:05.684279136 +0530 IST UrlToken:NTE4YjVjNzFjZGU5ZTgwZjM2MDAwMDAx}, id: %v(MISSING)
+test: 2013/05/09 13:51:05 response: {
   "c": "",
   "s": 200,
   "d": {
-    "id": "517ee2d9cde9e83660000001",
+    "id": "518b5c71cde9e80f36000001",
     "parentId": "",
     "name": "adnaan",
     "email": "badr.adnaan@gmail.com",
     "verified": false,
-    "password": "",
-    "created": "2013-04-30T02:45:05.30686245+05:30",
-    "updated": "2013-04-30T02:45:05.306862515+05:30",
-    "urltoken": "NTE3ZWUyZDljZGU5ZTgzNjYwMDAwMDAx"
+    "password": "$2a$10$LCm.N4UZ8UZ7DUFR72aYDOBT8JE83GR63y74VdJh..7jLaiF8fm6i",
+    "salt": "87e2181f40e575fd802c402b95c1b9d7",
+    "created": "2013-05-09T13:51:05.684279067+05:30",
+    "updated": "2013-05-09T13:51:05.684279136+05:30",
+    "urltoken": "NTE4YjVjNzFjZGU5ZTgwZjM2MDAwMDAx"
   },
   "e": ""
 }
-2013/04/30 02:45:05 ********Server Startup*********
-2013/04/30 02:45:05 ********++++++++++++++*********
-2013/04/30 02:45:05 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:45:05 developers collection indexed!
-CreateDev: 2013/04/30 02:45:05 bson objectId ObjectIdHex("517ee2d9cde9e83660000002")
-CreateDev: 2013/04/30 02:45:05 encoded token: NTE3ZWUyZDljZGU5ZTgzNjYwMDAwMDAy 
-CreateDev: 2013/04/30 02:45:05 error in inserting data for: &{ObjectIdHex("517ee2d9cde9e83660000002")  adnaan badr.adnaan@gmail.com false  2013-04-30 02:45:05.309553143 +0530 IST 2013-04-30 02:45:05.309553265 +0530 IST NTE3ZWUyZDljZGU5ZTgzNjYwMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
-test: 2013/04/30 02:45:05 response: internal server error
-2013/04/30 02:45:05 ********Server Startup*********
-2013/04/30 02:45:05 ********++++++++++++++*********
-2013/04/30 02:45:05 hamster is now listening on http://localhost:8686
-IndexDev: 2013/04/30 02:45:05 developers collection indexed!
-CreateDev: 2013/04/30 02:45:05 error in inserting data for: &{ObjectIdHex("")  adnaan  false  0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
-test: 2013/04/30 02:45:05 response: email is empty
+2013/05/09 13:51:05 ********Server Startup*********
+2013/05/09 13:51:05 ********++++++++++++++*********
+2013/05/09 13:51:05 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:05 developers collection indexed!
+CreateDev: 2013/05/09 13:51:05 password-salt 
+%!(EXTRA string=$2a$10$DbZJ95K6Uk.4GRlVh7Dawu/drZnsFR.tn5QgW1WomJs/wb0zzOrGe, string=09e6612f4046944a804cea7f1d58ac91)
+CreateDev: 2013/05/09 13:51:05 error in inserting data for: &{ObjectIdHex("518b5c71cde9e80f36000002")  adnaan badr.adnaan@gmail.com false $2a$10$DbZJ95K6Uk.4GRlVh7Dawu/drZnsFR.tn5QgW1WomJs/wb0zzOrGe 09e6612f4046944a804cea7f1d58ac91 2013-05-09 13:51:05.933866104 +0530 IST 2013-05-09 13:51:05.933866222 +0530 IST NTE4YjVjNzFjZGU5ZTgwZjM2MDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 13:51:05 response: internal server error
+2013/05/09 13:51:05 ********Server Startup*********
+2013/05/09 13:51:05 ********++++++++++++++*********
+2013/05/09 13:51:05 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:05 developers collection indexed!
+CreateDev: 2013/05/09 13:51:05 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 13:51:05 response: email is empty
+2013/05/09 13:51:30 ********Server Startup*********
+2013/05/09 13:51:30 ********++++++++++++++*********
+2013/05/09 13:51:30 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:30 developers collection indexed!
+CreateDev: 2013/05/09 13:51:30 password-salt 
+%!(EXTRA string=$2a$10$sgHqATir2V4P98Gu559szOD08TG4reP3qjt2f6pTHWGunxu0/7DQm, string=ad6461cb403d6fba80cf6214db5257e2)
+CreateDev: 2013/05/09 13:51:30 error in inserting data for: &{ObjectIdHex("518b5c8acde9e80f4b000001")  adnaan badr.adnaan@gmail.com false $2a$10$sgHqATir2V4P98Gu559szOD08TG4reP3qjt2f6pTHWGunxu0/7DQm ad6461cb403d6fba80cf6214db5257e2 2013-05-09 13:51:30.980385497 +0530 IST 2013-05-09 13:51:30.980385681 +0530 IST NTE4YjVjOGFjZGU5ZTgwZjRiMDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/09 13:51:30 ********Server Startup*********
+2013/05/09 13:51:30 ********++++++++++++++*********
+2013/05/09 13:51:30 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:30 developers collection indexed!
+CreateDev: 2013/05/09 13:51:31 password-salt 
+%!(EXTRA string=$2a$10$EtrkM0bMwId282PmHNc0bOQ7M../9sSbJHxFX87mw/N.PQhV39OBS, string=b0d117da401cf7ef80132e91bc650c21)
+CreateDev: 2013/05/09 13:51:31 error in inserting data for: &{ObjectIdHex("518b5c8bcde9e80f4b000002")  adnaan badr.adnaan@gmail.com false $2a$10$EtrkM0bMwId282PmHNc0bOQ7M../9sSbJHxFX87mw/N.PQhV39OBS b0d117da401cf7ef80132e91bc650c21 2013-05-09 13:51:31.229765122 +0530 IST 2013-05-09 13:51:31.229765267 +0530 IST NTE4YjVjOGJjZGU5ZTgwZjRiMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 13:51:31 response: internal server error
+2013/05/09 13:51:31 ********Server Startup*********
+2013/05/09 13:51:31 ********++++++++++++++*********
+2013/05/09 13:51:31 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:51:31 developers collection indexed!
+CreateDev: 2013/05/09 13:51:31 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 13:51:31 response: email is empty
+2013/05/09 13:53:44 ********Server Startup*********
+2013/05/09 13:53:44 ********++++++++++++++*********
+2013/05/09 13:53:44 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:53:44 developers collection indexed!
+CreateDev: 2013/05/09 13:53:44 password-salt 
+%!(EXTRA string=$2a$10$i/Wi65c/cbvL6ryv55dQIu3exBDcFxioosg0p4yxHDwakSHIKS.fK, string=70d9484a40f04adc8003559dc6ee2e10)
+CreateDev: 2013/05/09 13:53:44 error in inserting data for: &{ObjectIdHex("518b5d10cde9e80f66000001")  adnaan badr.adnaan@gmail.com false $2a$10$i/Wi65c/cbvL6ryv55dQIu3exBDcFxioosg0p4yxHDwakSHIKS.fK 70d9484a40f04adc8003559dc6ee2e10 2013-05-09 13:53:44.756043636 +0530 IST 2013-05-09 13:53:44.756043752 +0530 IST NTE4YjVkMTBjZGU5ZTgwZjY2MDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/09 13:53:44 ********Server Startup*********
+2013/05/09 13:53:44 ********++++++++++++++*********
+2013/05/09 13:53:44 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:53:44 developers collection indexed!
+CreateDev: 2013/05/09 13:53:45 password-salt 
+%!(EXTRA string=$2a$10$.PAG/vPoZv60amyf3oGuQOtZfV1DgtEgzsaubQ2qUcLPSmpR/hwrG, string=4c8a795040b1dc94808de6f951f7fce2)
+CreateDev: 2013/05/09 13:53:45 error in inserting data for: &{ObjectIdHex("518b5d11cde9e80f66000002")  adnaan badr.adnaan@gmail.com false $2a$10$.PAG/vPoZv60amyf3oGuQOtZfV1DgtEgzsaubQ2qUcLPSmpR/hwrG 4c8a795040b1dc94808de6f951f7fce2 2013-05-09 13:53:45.005484946 +0530 IST 2013-05-09 13:53:45.005485064 +0530 IST NTE4YjVkMTFjZGU5ZTgwZjY2MDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 13:53:45 response: internal server error
+
+2013/05/09 13:53:45 ********Server Startup*********
+2013/05/09 13:53:45 ********++++++++++++++*********
+2013/05/09 13:53:45 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:53:45 developers collection indexed!
+CreateDev: 2013/05/09 13:53:45 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 13:53:45 response: email is empty
+
+2013/05/09 13:57:47 ********Server Startup*********
+2013/05/09 13:57:47 ********++++++++++++++*********
+2013/05/09 13:57:47 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:57:47 developers collection indexed!
+CreateDev: 2013/05/09 13:57:47 password-salt 
+%!(EXTRA string=$2a$10$eB9nMO76oh/laprylpvMwuNMfYgZ.Bl/7TZsV1.4LpwzVunceWdom, string=324f5e7440542d9f80e99f15b5ee2e3f)
+CreateDev: 2013/05/09 13:57:47 created new developer: &{Id:ObjectIdHex("518b5e03cde9e80f87000001") ParentId: Name:adnaan Email:badr1.adnaan@gmail.com Verified:false Password:$2a$10$eB9nMO76oh/laprylpvMwuNMfYgZ.Bl/7TZsV1.4LpwzVunceWdom Salt:324f5e7440542d9f80e99f15b5ee2e3f Created:2013-05-09 13:57:47.635339948 +0530 IST Updated:2013-05-09 13:57:47.635340071 +0530 IST UrlToken:NTE4YjVlMDNjZGU5ZTgwZjg3MDAwMDAx}, id: %v(MISSING)
+test: 2013/05/09 13:57:47 response: {
+  "c": "",
+  "s": 200,
+  "d": {
+    "id": "518b5e03cde9e80f87000001",
+    "parentId": "",
+    "name": "adnaan",
+    "email": "badr1.adnaan@gmail.com",
+    "verified": false,
+    "password": "$2a$10$eB9nMO76oh/laprylpvMwuNMfYgZ.Bl/7TZsV1.4LpwzVunceWdom",
+    "salt": "324f5e7440542d9f80e99f15b5ee2e3f",
+    "created": "2013-05-09T13:57:47.635339948+05:30",
+    "updated": "2013-05-09T13:57:47.635340071+05:30",
+    "urltoken": "NTE4YjVlMDNjZGU5ZTgwZjg3MDAwMDAx"
+  },
+  "e": ""
+}
+2013/05/09 13:57:47 ********Server Startup*********
+2013/05/09 13:57:47 ********++++++++++++++*********
+2013/05/09 13:57:47 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:57:47 developers collection indexed!
+CreateDev: 2013/05/09 13:57:47 password-salt 
+%!(EXTRA string=$2a$10$rcjyHk7y5Eg.3L./UsszOuII6quRe7PrI4OKmTiZhSYPVuoHzBOzC, string=6313622f40d2e506800f9038ac42a18d)
+CreateDev: 2013/05/09 13:57:47 error in inserting data for: &{ObjectIdHex("518b5e03cde9e80f87000002")  adnaan badr.adnaan@gmail.com false $2a$10$rcjyHk7y5Eg.3L./UsszOuII6quRe7PrI4OKmTiZhSYPVuoHzBOzC 6313622f40d2e506800f9038ac42a18d 2013-05-09 13:57:47.884877698 +0530 IST 2013-05-09 13:57:47.884877823 +0530 IST NTE4YjVlMDNjZGU5ZTgwZjg3MDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 13:57:47 response: internal server error
+
+2013/05/09 13:57:47 ********Server Startup*********
+2013/05/09 13:57:47 ********++++++++++++++*********
+2013/05/09 13:57:47 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:57:47 developers collection indexed!
+CreateDev: 2013/05/09 13:57:47 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 13:57:47 response: email is empty
+
+2013/05/09 13:59:39 ********Server Startup*********
+2013/05/09 13:59:39 ********++++++++++++++*********
+2013/05/09 13:59:39 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:59:39 developers collection indexed!
+CreateDev: 2013/05/09 13:59:39 password-salt 
+%!(EXTRA string=$2a$10$G73/iuCWKxaFKAHNNU9Nw.T4Z/QmEsw3lKTxHCoT83qFOP7mIKD2K, string=c7d69a374064cc5b808f9e6ef2a012e7)
+CreateDev: 2013/05/09 13:59:39 error in inserting data for: &{ObjectIdHex("518b5e73cde9e80fa3000001")  adnaan badr1.adnaan@gmail.com false $2a$10$G73/iuCWKxaFKAHNNU9Nw.T4Z/QmEsw3lKTxHCoT83qFOP7mIKD2K c7d69a374064cc5b808f9e6ef2a012e7 2013-05-09 13:59:39.636141479 +0530 IST 2013-05-09 13:59:39.636141602 +0530 IST NTE4YjVlNzNjZGU5ZTgwZmEzMDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr1.adnaan@gmail.com" } 
+2013/05/09 13:59:39 ********Server Startup*********
+2013/05/09 13:59:39 ********++++++++++++++*********
+2013/05/09 13:59:39 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:59:39 developers collection indexed!
+CreateDev: 2013/05/09 13:59:39 password-salt 
+%!(EXTRA string=$2a$10$RLU5RODe5FcxQeB3VBO6LuwJiFoKX3hxEfnDtQoRaEs33I0eU56Pq, string=39320f2f402210b28003dfd902fbacf0)
+CreateDev: 2013/05/09 13:59:39 error in inserting data for: &{ObjectIdHex("518b5e73cde9e80fa3000002")  adnaan badr.adnaan@gmail.com false $2a$10$RLU5RODe5FcxQeB3VBO6LuwJiFoKX3hxEfnDtQoRaEs33I0eU56Pq 39320f2f402210b28003dfd902fbacf0 2013-05-09 13:59:39.885384793 +0530 IST 2013-05-09 13:59:39.88538492 +0530 IST NTE4YjVlNzNjZGU5ZTgwZmEzMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/09 13:59:39 ********Server Startup*********
+2013/05/09 13:59:39 ********++++++++++++++*********
+2013/05/09 13:59:39 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 13:59:39 developers collection indexed!
+CreateDev: 2013/05/09 13:59:39 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 13:59:39 response: email is empty
+
+2013/05/09 14:00:14 ********Server Startup*********
+2013/05/09 14:00:14 ********++++++++++++++*********
+2013/05/09 14:00:14 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:00:14 developers collection indexed!
+CreateDev: 2013/05/09 14:00:15 password-salt 
+%!(EXTRA string=$2a$10$0kZ/3KiLfLUo4kb0.3FeS.x8DOL4AIXJDUvB7ZuzR.kbyC2ZId6T6, string=41cd55c04060916180ce9849a0710a66)
+CreateDev: 2013/05/09 14:00:15 error in inserting data for: &{ObjectIdHex("518b5e97cde9e80fb9000001")  adnaan badr1.adnaan@gmail.com false $2a$10$0kZ/3KiLfLUo4kb0.3FeS.x8DOL4AIXJDUvB7ZuzR.kbyC2ZId6T6 41cd55c04060916180ce9849a0710a66 2013-05-09 14:00:15.149348871 +0530 IST 2013-05-09 14:00:15.149349021 +0530 IST NTE4YjVlOTdjZGU5ZTgwZmI5MDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr1.adnaan@gmail.com" } 
+2013/05/09 14:00:15 ********Server Startup*********
+2013/05/09 14:00:15 ********++++++++++++++*********
+2013/05/09 14:00:15 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:00:15 developers collection indexed!
+CreateDev: 2013/05/09 14:00:15 password-salt 
+%!(EXTRA string=$2a$10$2agtHy5RyOo.qEARfSfCS.N543GqHe4KjRvEzg4HwKgkN5jOEvDca, string=cec21374402a9ae0802d413a4f8f3b87)
+CreateDev: 2013/05/09 14:00:15 error in inserting data for: &{ObjectIdHex("518b5e97cde9e80fb9000002")  adnaan badr.adnaan@gmail.com false $2a$10$2agtHy5RyOo.qEARfSfCS.N543GqHe4KjRvEzg4HwKgkN5jOEvDca cec21374402a9ae0802d413a4f8f3b87 2013-05-09 14:00:15.398573856 +0530 IST 2013-05-09 14:00:15.398574001 +0530 IST NTE4YjVlOTdjZGU5ZTgwZmI5MDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/09 14:00:15 ********Server Startup*********
+2013/05/09 14:00:15 ********++++++++++++++*********
+2013/05/09 14:00:15 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:00:15 developers collection indexed!
+CreateDev: 2013/05/09 14:00:15 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+2013/05/09 14:01:37 ********Server Startup*********
+2013/05/09 14:01:37 ********++++++++++++++*********
+2013/05/09 14:01:37 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:01:37 developers collection indexed!
+CreateDev: 2013/05/09 14:01:37 password-salt 
+%!(EXTRA string=$2a$10$fcJaS6w2BjTe1EH5rBUghu81j2QMnp.MVg7b.bG/cEZr5r0xg1wna, string=e4abd794409361d9808897e1cc49d8a2)
+CreateDev: 2013/05/09 14:01:37 created new developer: &{Id:ObjectIdHex("518b5ee9cde9e80fcf000001") ParentId: Name:adnaan Email:badr1.adnaan@gmail.com Verified:false Password:$2a$10$fcJaS6w2BjTe1EH5rBUghu81j2QMnp.MVg7b.bG/cEZr5r0xg1wna Salt:e4abd794409361d9808897e1cc49d8a2 Created:2013-05-09 14:01:37.415306684 +0530 IST Updated:2013-05-09 14:01:37.415306807 +0530 IST UrlToken:NTE4YjVlZTljZGU5ZTgwZmNmMDAwMDAx}, id: %v(MISSING)
+test: 2013/05/09 14:01:37 response: {
+  "c": "",
+  "s": 200,
+  "d": {
+    "id": "518b5ee9cde9e80fcf000001",
+    "parentId": "",
+    "name": "adnaan",
+    "email": "badr1.adnaan@gmail.com",
+    "verified": false,
+    "password": "$2a$10$fcJaS6w2BjTe1EH5rBUghu81j2QMnp.MVg7b.bG/cEZr5r0xg1wna",
+    "salt": "e4abd794409361d9808897e1cc49d8a2",
+    "created": "2013-05-09T14:01:37.415306684+05:30",
+    "updated": "2013-05-09T14:01:37.415306807+05:30",
+    "urltoken": "NTE4YjVlZTljZGU5ZTgwZmNmMDAwMDAx"
+  },
+  "e": ""
+}
+2013/05/09 14:01:37 ********Server Startup*********
+2013/05/09 14:01:37 ********++++++++++++++*********
+2013/05/09 14:01:37 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:01:37 developers collection indexed!
+CreateDev: 2013/05/09 14:01:37 password-salt 
+%!(EXTRA string=$2a$10$cvo3aqYs.oTxdVcqAeEbUupt6mXvG6YVAgxQ5y98uQcrsOO2C.jGa, string=0ad8431a4037001680fc36fd163e3ee1)
+CreateDev: 2013/05/09 14:01:37 created new developer: &{Id:ObjectIdHex("518b5ee9cde9e80fcf000002") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$cvo3aqYs.oTxdVcqAeEbUupt6mXvG6YVAgxQ5y98uQcrsOO2C.jGa Salt:0ad8431a4037001680fc36fd163e3ee1 Created:2013-05-09 14:01:37.664636258 +0530 IST Updated:2013-05-09 14:01:37.664636391 +0530 IST UrlToken:NTE4YjVlZTljZGU5ZTgwZmNmMDAwMDAy}, id: %v(MISSING)
+test: 2013/05/09 14:01:37 response: {
+  "c": "",
+  "s": 200,
+  "d": {
+    "id": "518b5ee9cde9e80fcf000002",
+    "parentId": "",
+    "name": "adnaan",
+    "email": "badr.adnaan@gmail.com",
+    "verified": false,
+    "password": "$2a$10$cvo3aqYs.oTxdVcqAeEbUupt6mXvG6YVAgxQ5y98uQcrsOO2C.jGa",
+    "salt": "0ad8431a4037001680fc36fd163e3ee1",
+    "created": "2013-05-09T14:01:37.664636258+05:30",
+    "updated": "2013-05-09T14:01:37.664636391+05:30",
+    "urltoken": "NTE4YjVlZTljZGU5ZTgwZmNmMDAwMDAy"
+  },
+  "e": ""
+}
+2013/05/09 14:01:37 ********Server Startup*********
+2013/05/09 14:01:37 ********++++++++++++++*********
+2013/05/09 14:01:37 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:01:37 developers collection indexed!
+CreateDev: 2013/05/09 14:01:37 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 14:01:37 response: email is empty
+

@@ -19,6 +19,7 @@ type Developer struct {
 	Email    string        `bson:"email" json:"email"`
 	Verified bool          `bson:"verified" json:"verified"`
 	Password string        `bson:"password" json:"password"`
+	Salt     string        `bson:"salt" json:"salt"`
 	Created  time.Time     `bson:"created" json:"created"`
 	Updated  time.Time     `bson:"updated" json:"updated"`
 	UrlToken string        `bson:"urltoken" json:"urltoken"`
@@ -75,6 +76,15 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//encrypt password
+	encrypted_password, salt, encryptPasswordError := encryptPassword(string(developer.Password))
+	if encryptPasswordError != nil {
+
+		s.logger.Printf("error encrypting password: %v \n", developer, encryptPasswordError)
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+
+	}
+
+	s.logger.Printf("password-salt \n", encrypted_password, salt)
 
 	//profile details
 	session := s.db.GetSession()
@@ -83,14 +93,16 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 	//set fields
 	developer.Id = bson.NewObjectId()
-	s.logger.Printf("bson objectId %v\n", developer.Id)
+	//s.logger.Printf("bson objectId %v\n", developer.Id)
 
 	// UrlToken: public object id used for routes and queries
 	//todo:make it shorter and user friendly
-
-	developer.UrlToken = s.encodeBase64Token(developer.Id.Hex())
+	developer.UrlToken = encodeBase64Token(developer.Id.Hex())
+	developer.Password = encrypted_password
+	developer.Salt = salt
 	developer.Created = time.Now()
 	developer.Updated = time.Now()
+
 	//insert new document
 	insertError := c.Insert(developer)
 	if insertError != nil {

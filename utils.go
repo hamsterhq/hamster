@@ -2,7 +2,6 @@ package hamster
 
 import (
 	//"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -63,28 +62,4 @@ func (s *Server) serveJson(w http.ResponseWriter, v interface{}) {
 	w.Header().Set("Content-Length", strconv.Itoa(len(content)))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(content)
-}
-
-func (s *Server) encodeBase64Token(hexVal string) string {
-
-	token := base64.URLEncoding.EncodeToString([]byte(hexVal))
-
-	s.logger.Printf("encoded token: %s \n", token)
-	return token
-
-}
-
-func (s *Server) decodeToken(token string) string {
-
-	hexVal, err := base64.URLEncoding.DecodeString(token)
-	if err != nil {
-
-		s.logger.Printf("decoded token error: %v \n", err)
-		return ""
-
-	}
-
-	s.logger.Printf("decoded token: %s \n", string(hexVal))
-	return string(hexVal)
-
 }

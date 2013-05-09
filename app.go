@@ -7,12 +7,15 @@ import (
 )
 
 type App struct {
-	Id       bson.ObjectId `bson:"_id,omitempty" json:"-"`
-	ParentId string        `bson:"parentId" json:"parentId"`
-	Name     string        `bson:"name" json:"name"`
-	OS       string        `bson:"os" json:"os"`
-	Created  time.Time     `bson:"created" json:"created"`
-	Updated  time.Time     `bson:"updated" json:"updated"`
+	Id        bson.ObjectId `bson:"_id,omitempty" json:"-"`
+	ParentId  string        `bson:"parentId" json:"parentId"`
+	Name      string        `bson:"name" json:"name"`
+	OS        string        `bson:"os" json:"os"`
+	ApiToken  string        `bson:"apitoken" json:"apitoken"`
+	ApiSecret string        `bson:"apisecret" json:"apisecret"`
+	Salt      string        `bson:"salt" json:"salt"`
+	Created   time.Time     `bson:"created" json:"created"`
+	Updated   time.Time     `bson:"updated" json:"updated"`
 }
 
 func (s *Server) CreateApp(w http.ResponseWriter, r *http.Request) {
