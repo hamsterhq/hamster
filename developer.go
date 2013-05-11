@@ -65,6 +65,7 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 		s.logger.Printf("error in parsing body for: %v, err: %v \n", r.Body, marshalError)
 
 		http.Error(w, "Bad Data!", http.StatusBadRequest)
+		return
 
 	}
 
@@ -81,12 +82,13 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 		s.logger.Printf("error encrypting password: %v \n", developer, encryptPasswordError)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
 
 	}
 
 	s.logger.Printf("password-salt \n", encrypted_password, salt)
 
-	//profile details
+	//get db session
 	session := s.db.GetSession()
 	defer session.Close()
 	c := session.DB("").C(cName)
@@ -114,7 +116,7 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 	} else {
 		s.logger.Printf("created new developer: %+v, id: %v\n", developer)
 		//serve created developer json
-		response := Response{S: 200, D: &developer}
+		response := Response{C: encodeBase64Token(developer.Id.Hex()), S: 200}
 		s.serveJson(w, &response)
 	}
 
@@ -122,8 +124,39 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//get developer
+//GET: developers/:objectId or developers/:username
 func (s *Server) GetDev(w http.ResponseWriter, r *http.Request) {
+
+	//get objectId
+
+	id := r.URL.Query().Get(":id")
+
+	//get db session
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(cName)
+
+	//find object
+	var result Developer
+	ctx := ""
+
+	if objectId != "" {
+		if findErr := c.FindId(decodeToken(objectId)).One(&result); findErr != nil {
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
+	} else if username != "" {
+		if findErr := c.Find().One(&result); findErr != nil {
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
+	} else {
+		http.Error(w, "no identifier", http.StatusNotFound)
+		return
+	}
+
+	//respond with developer profile
+	reponse := &Response{C: ctx, S: 200, D: &Developer{Name: result.Name, Email: result.Email, Verified: result.Verified}}
 
 }
 

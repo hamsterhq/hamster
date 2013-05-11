@@ -36,8 +36,9 @@ func (s *Server) addHandlers() {
 
 	//create a developer.
 	s.router.Post("/developers", s.CreateDev)
-	//get a developer
-	s.router.Get("/developers/:objectId", s.GetDev)
+	//get a developer objectId, email or username
+	s.router.Get("/developers/:id", s.GetDev)
+
 	//login
 	s.router.Get("/developers/:objectId/login", s.LoginDev)
 	//update developer

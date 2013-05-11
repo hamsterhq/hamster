@@ -316,3 +316,95 @@ IndexDev: 2013/05/09 14:01:37 developers collection indexed!
 CreateDev: 2013/05/09 14:01:37 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
 test: 2013/05/09 14:01:37 response: email is empty
 
+2013/05/09 14:31:00 ********Server Startup*********
+2013/05/09 14:31:00 ********++++++++++++++*********
+2013/05/09 14:31:00 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:31:00 developers collection indexed!
+CreateDev: 2013/05/09 14:31:01 password-salt 
+%!(EXTRA string=$2a$10$CtNo2abX9j4tvFJ5EJ0PQuwHwUCtU6tPdYR3dTB34OINfSYsp8ySO, string=85d5b08b401aae308064b2e887f843e2)
+CreateDev: 2013/05/09 14:31:01 created new developer: &{Id:ObjectIdHex("518b65cdcde9e8116e000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$CtNo2abX9j4tvFJ5EJ0PQuwHwUCtU6tPdYR3dTB34OINfSYsp8ySO Salt:85d5b08b401aae308064b2e887f843e2 Created:2013-05-09 14:31:01.099976395 +0530 IST Updated:2013-05-09 14:31:01.099976571 +0530 IST UrlToken:NTE4YjY1Y2RjZGU5ZTgxMTZlMDAwMDAx}, id: %v(MISSING)
+test: 2013/05/09 14:31:01 response: {
+  "c": "",
+  "s": 200,
+  "d": {
+    "id": "518b65cdcde9e8116e000001",
+    "parentId": "",
+    "name": "adnaan",
+    "email": "badr.adnaan@gmail.com",
+    "verified": false,
+    "password": "$2a$10$CtNo2abX9j4tvFJ5EJ0PQuwHwUCtU6tPdYR3dTB34OINfSYsp8ySO",
+    "salt": "85d5b08b401aae308064b2e887f843e2",
+    "created": "2013-05-09T14:31:01.099976395+05:30",
+    "updated": "2013-05-09T14:31:01.099976571+05:30",
+    "urltoken": "NTE4YjY1Y2RjZGU5ZTgxMTZlMDAwMDAx"
+  },
+  "e": ""
+}
+2013/05/09 14:31:01 ********Server Startup*********
+2013/05/09 14:31:01 ********++++++++++++++*********
+2013/05/09 14:31:01 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:31:01 developers collection indexed!
+CreateDev: 2013/05/09 14:31:01 password-salt 
+%!(EXTRA string=$2a$10$bRnOljGxNdGFTDkviV/JCuH0x1tXjX74DOQWny9hP.RsS90pjGnpi, string=2b2f522040bfa58480c231424e570b73)
+CreateDev: 2013/05/09 14:31:01 error in inserting data for: &{ObjectIdHex("518b65cdcde9e8116e000002")  adnaan badr.adnaan@gmail.com false $2a$10$bRnOljGxNdGFTDkviV/JCuH0x1tXjX74DOQWny9hP.RsS90pjGnpi 2b2f522040bfa58480c231424e570b73 2013-05-09 14:31:01.349350369 +0530 IST 2013-05-09 14:31:01.349350502 +0530 IST NTE4YjY1Y2RjZGU5ZTgxMTZlMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 14:31:01 response: internal server error
+
+2013/05/09 14:31:01 ********Server Startup*********
+2013/05/09 14:31:01 ********++++++++++++++*********
+2013/05/09 14:31:01 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:31:01 developers collection indexed!
+CreateDev: 2013/05/09 14:31:01 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 14:31:01 response: email is empty
+
+2013/05/09 14:55:05 ********Server Startup*********
+2013/05/09 14:55:05 ********++++++++++++++*********
+2013/05/09 14:55:05 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:05 developers collection indexed!
+CreateDev: 2013/05/09 14:55:06 password-salt 
+%!(EXTRA string=$2a$10$o9Z.6Jt4lFtL3NkaMeZaTeRpUkK7DtLVRt5.G/xg//wX7e/CkYce., string=8d5f86e740f4ea5080301e39491f881b)
+CreateDev: 2013/05/09 14:55:06 error in inserting data for: &{ObjectIdHex("518b6b72cde9e8127a000001")  adnaan badr.adnaan@gmail.com false $2a$10$o9Z.6Jt4lFtL3NkaMeZaTeRpUkK7DtLVRt5.G/xg//wX7e/CkYce. 8d5f86e740f4ea5080301e39491f881b 2013-05-09 14:55:06.096698782 +0530 IST 2013-05-09 14:55:06.096698901 +0530 IST NTE4YjZiNzJjZGU5ZTgxMjdhMDAwMDAx}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+2013/05/09 14:55:06 ********Server Startup*********
+2013/05/09 14:55:06 ********++++++++++++++*********
+2013/05/09 14:55:06 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:06 developers collection indexed!
+CreateDev: 2013/05/09 14:55:06 password-salt 
+%!(EXTRA string=$2a$10$6ijdenizzmuaUJbPk/BFROnqTA5Dv/erXNnljFv1p3FqF3NkHZ0Aq, string=d2a6b8cd40347b41801961aed2ee7eac)
+CreateDev: 2013/05/09 14:55:06 error in inserting data for: &{ObjectIdHex("518b6b72cde9e8127a000002")  adnaan badr.adnaan@gmail.com false $2a$10$6ijdenizzmuaUJbPk/BFROnqTA5Dv/erXNnljFv1p3FqF3NkHZ0Aq d2a6b8cd40347b41801961aed2ee7eac 2013-05-09 14:55:06.346082685 +0530 IST 2013-05-09 14:55:06.34608282 +0530 IST NTE4YjZiNzJjZGU5ZTgxMjdhMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 14:55:06 response: internal server error
+
+2013/05/09 14:55:06 ********Server Startup*********
+2013/05/09 14:55:06 ********++++++++++++++*********
+2013/05/09 14:55:06 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:06 developers collection indexed!
+CreateDev: 2013/05/09 14:55:06 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 14:55:06 response: email is empty
+
+2013/05/09 14:55:30 ********Server Startup*********
+2013/05/09 14:55:30 ********++++++++++++++*********
+2013/05/09 14:55:30 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:30 developers collection indexed!
+CreateDev: 2013/05/09 14:55:30 password-salt 
+%!(EXTRA string=$2a$10$SqpvDKF2jUXEPXYGsY46DeLRphz249L20JJqU5AWWqTLRN50G/t3C, string=4968c09e408ec29f80acca1de5310fde)
+CreateDev: 2013/05/09 14:55:30 created new developer: &{Id:ObjectIdHex("518b6b8acde9e8128f000001") ParentId: Name:adnaan Email:badr.adnaan@gmail.com Verified:false Password:$2a$10$SqpvDKF2jUXEPXYGsY46DeLRphz249L20JJqU5AWWqTLRN50G/t3C Salt:4968c09e408ec29f80acca1de5310fde Created:2013-05-09 14:55:30.491739691 +0530 IST Updated:2013-05-09 14:55:30.491739824 +0530 IST UrlToken:NTE4YjZiOGFjZGU5ZTgxMjhmMDAwMDAx}, id: %v(MISSING)
+test: 2013/05/09 14:55:30 response: {
+  "c": "NTE4YjZiOGFjZGU5ZTgxMjhmMDAwMDAx",
+  "s": 200,
+  "d": null,
+  "e": ""
+}
+2013/05/09 14:55:30 ********Server Startup*********
+2013/05/09 14:55:30 ********++++++++++++++*********
+2013/05/09 14:55:30 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:30 developers collection indexed!
+CreateDev: 2013/05/09 14:55:30 password-salt 
+%!(EXTRA string=$2a$10$jGTbe7nuJy7G3.yH0nMxeeMGXipx9.r6v1EECkf9TfH92WUvcHB0u, string=1b2171b64098bd7880bd56be17c32576)
+CreateDev: 2013/05/09 14:55:30 error in inserting data for: &{ObjectIdHex("518b6b8acde9e8128f000002")  adnaan badr.adnaan@gmail.com false $2a$10$jGTbe7nuJy7G3.yH0nMxeeMGXipx9.r6v1EECkf9TfH92WUvcHB0u 1b2171b64098bd7880bd56be17c32576 2013-05-09 14:55:30.741017592 +0530 IST 2013-05-09 14:55:30.741017708 +0530 IST NTE4YjZiOGFjZGU5ZTgxMjhmMDAwMDAy}, err: E11000 duplicate key error index: hamster.developers.$email_1  dup key: { : "badr.adnaan@gmail.com" } 
+test: 2013/05/09 14:55:30 response: internal server error
+
+2013/05/09 14:55:30 ********Server Startup*********
+2013/05/09 14:55:30 ********++++++++++++++*********
+2013/05/09 14:55:30 hamster is now listening on http://localhost:8686
+IndexDev: 2013/05/09 14:55:30 developers collection indexed!
+CreateDev: 2013/05/09 14:55:30 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
+test: 2013/05/09 14:55:30 response: email is empty
+
