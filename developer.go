@@ -124,44 +124,45 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//GET: developers/:objectId or developers/:username
-func (s *Server) GetDev(w http.ResponseWriter, r *http.Request) {
+//login developer
+func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) { /*
 
-	//get objectId
+		//get objectId
 
-	id := r.URL.Query().Get(":id")
+		id := r.URL.Query().Get(":id")
 
-	//get db session
-	session := s.db.GetSession()
-	defer session.Close()
-	c := session.DB("").C(cName)
+		//get db session
+		session := s.db.GetSession()
+		defer session.Close()
+		c := session.DB("").C(cName)
 
-	//find object
-	var result Developer
-	ctx := ""
+		//find object
+		var result Developer
+		ctx := ""
 
-	if objectId != "" {
-		if findErr := c.FindId(decodeToken(objectId)).One(&result); findErr != nil {
-			http.Error(w, "not found", http.StatusNotFound)
+		if objectId != "" {
+			if findErr := c.FindId(decodeToken(objectId)).One(&result); findErr != nil {
+				http.Error(w, "not found", http.StatusNotFound)
+				return
+			}
+		} else if username != "" {
+			if findErr := c.Find().One(&result); findErr != nil {
+				http.Error(w, "not found", http.StatusNotFound)
+				return
+			}
+		} else {
+			http.Error(w, "no identifier", http.StatusNotFound)
 			return
 		}
-	} else if username != "" {
-		if findErr := c.Find().One(&result); findErr != nil {
-			http.Error(w, "not found", http.StatusNotFound)
-			return
-		}
-	} else {
-		http.Error(w, "no identifier", http.StatusNotFound)
-		return
-	}
 
-	//respond with developer profile
-	reponse := &Response{C: ctx, S: 200, D: &Developer{Name: result.Name, Email: result.Email, Verified: result.Verified}}
+		//respond with developer profile
+		reponse := &Response{C: ctx, S: 200, D: &Developer{Name: result.Name, Email: result.Email, Verified: result.Verified}}*/
 
 }
 
-//login developer
-func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
+//logout developer
+
+func (s *Server) LogoutDev(w http.ResponseWriter, r *http.Request) {
 
 }
 

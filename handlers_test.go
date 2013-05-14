@@ -8,7 +8,7 @@ import (
 //developers handlers
 func TestCRUDDeveloper(t *testing.T) {
 	testServer(func(s *Server) {
-		res, err := testHttpRequest("POST", "/developers", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
+		res, err := testHttpRequest("POST", "/developers/v1", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
 		if err != nil {
 			t.Fatalf("Unable to create developer: %v", err)
 
@@ -31,7 +31,7 @@ func TestCRUDDeveloper(t *testing.T) {
 
 func TestCreateDeveloperEmailUnique(t *testing.T) {
 	testServer(func(s *Server) {
-		res, err := testHttpRequest("POST", "/developers", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
+		res, err := testHttpRequest("POST", "/developers/v1", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
 		if err != nil {
 			t.Fatalf("email unique failed %v", err)
 
@@ -54,7 +54,7 @@ func TestCreateDeveloperEmailUnique(t *testing.T) {
 
 func TestCreateDeveloperEmailExists(t *testing.T) {
 	testServer(func(s *Server) {
-		res, err := testHttpRequest("POST", "/developers", `{"name":"adnaan"}`)
+		res, err := testHttpRequest("POST", "/developers/v1", `{"name":"adnaan"}`)
 		if err != nil {
 			t.Fatalf("email exists failed %v", err)
 

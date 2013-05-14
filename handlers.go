@@ -15,59 +15,81 @@ import (
 /1/classes/<className>/<objectId>	DELETE	Deleting Objects
 */
 
-//Authenticate rest api calls with application-id and application-key
-var Auth = func(w http.ResponseWriter, r *http.Request) {
+//check username-password, return with access-token
+var DevAuth = func(w http.ResponseWriter, r *http.Request) {
 	/*if r.URL.User == nil || r.URL.User.Username() != "admin" {
 		http.Error(w, "", http.StatusUnauthorized)
 	}*/
+
+}
+
+//check username-password, return with access-token
+var AppAuth = func(w http.ResponseWriter, r *http.Request) {
+	/*if r.URL.User == nil || r.URL.User.Username() != "admin" {
+		http.Error(w, "", http.StatusUnauthorized)
+	}*/
+
+}
+
+//check user agent
+//for browser clients: check access-token and shared-secret
+//for other clients: check app-id and app-key
+
+var APIAuth = func(w http.ResponseWriter, r *http.Request) {
+
 }
 
 //add path handlers
 func (s *Server) addHandlers() {
 
+	//account handlers
 	//authentication
-	s.router.Filter(Auth)
+	s.route.FilterPrefixPath("/developers", DevAuth)
 
 	//add pprof path handlers
-	s.router.AddRoute("GET", "/debug/pprof", pprof.Index)
-	s.router.AddRoute("GET", "/debug/pprof/cmdline", pprof.Cmdline)
-	s.router.AddRoute("GET", "/debug/pprof/profile", pprof.Profile)
-	s.router.AddRoute("GET", "/debug/pprof/symbol", pprof.Symbol)
+	s.route.AddRoute("GET", "/debug/pprof", pprof.Index)
+	s.route.AddRoute("GET", "/debug/pprof/cmdline", pprof.Cmdline)
+	s.route.AddRoute("GET", "/debug/pprof/profile", pprof.Profile)
+	s.route.AddRoute("GET", "/debug/pprof/symbol", pprof.Symbol)
 
 	//create a developer.
-	s.router.Post("/developers", s.CreateDev)
+	s.route.Post("/developers/v1", s.CreateDev)
 	//get a developer objectId, email or username
-	s.router.Get("/developers/:id", s.GetDev)
-
+	s.route.Get("/developers/v1/login", s.LoginDev)
 	//login
-	s.router.Get("/developers/:objectId/login", s.LoginDev)
+	s.route.Get("/developers/v1/logout", s.LogoutDev)
 	//update developer
-	s.router.Put("/developers/:objectId", s.UpdateDev)
+	s.route.Put("/developers/v1/:objectId", s.UpdateDev)
 	//queries
-	s.router.Get("/developers", s.QueryDev)
+	s.route.Get("/developers/v1", s.QueryDev)
 	//delete object
-	s.router.Del("/developers:objectId", s.DeleteDev)
+	s.route.Del("/developers/v1/:objectId", s.DeleteDev)
 
 	//create an app.
-	s.router.Post("/apps/", s.CreateApp)
+	s.route.Post("/apps/v1", s.CreateApp)
 	//get an app
-	s.router.Get("/apps/:objectId", s.GetApp)
+	s.route.Get("/apps/v1/:objectId", s.GetApp)
 	//update app
-	s.router.Put("/apps/:objectId", s.UpdateApp)
+	s.route.Put("/apps/v1/:objectId", s.UpdateApp)
 	//queries
-	s.router.Get("/apps", s.QueryApp)
+	s.route.Get("/apps/v1", s.QueryApp)
 	//delete app
-	s.router.Del("/apps:objectId", s.DeleteApp)
+	s.route.Del("/apps/v1/:objectId", s.DeleteApp)
 
 	//create an object. create collection(class) if it does not exist else add document(object)
-	s.router.Post("/classes/:className", s.CreateObject)
+	s.route.Post("/api/v1/classes/:className", s.CreateObject)
 	//get an object
-	s.router.Get("/classes/:className/:objectId", s.GetObject)
+	s.route.Get("/api/v1/classes/:className/:objectId", s.GetObject)
 	//update object
-	s.router.Put("/classes/:className/:objectId", s.UpdateObject)
+	s.route.Put("/api/v1/classes/:className/:objectId", s.UpdateObject)
 	//queries
-	s.router.Get("/classes/:className", s.QueryObject)
+	s.route.Get("/api/v1/classes/:className", s.QueryObject)
 	//delete object
-	s.router.Del("/classes/:className/:objectId", s.DeleteObject)
+	s.route.Del("/api/v1/classes/:className/:objectId", s.DeleteObject)
+
+	//files
+
+	//s.rouTe.Post("/files/<filename>", s.SaveFile)
+	//s.rouTe.Get("/files/<filename>", s.GetFile)
 
 }

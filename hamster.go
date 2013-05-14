@@ -4,7 +4,8 @@ package hamster
 
 import (
 	"fmt"
-	"github.com/drone/routes"
+	"github.com/BurntSushi/toml"
+	"github.com/adnaan/routes"
 	"io/ioutil"
 	"log"
 	"net"
@@ -24,8 +25,9 @@ type Server struct {
 	listener   net.Listener
 	logger     *log.Logger
 	httpServer *http.Server
-	router     *routes.RouteMux
+	route      *routes.RouteMux
 	db         *Db
+	config     *Config
 }
 
 //dbUrl:"mongodb://adnaan:pass@localhost:27017/hamster"
@@ -39,12 +41,19 @@ func NewServer(port int, dbUrl string) *Server {
 	}
 	//log.SetOutput(f)
 	//log.SetOutput(os.Stdout)
+
 	r := routes.New()
+	var cfg Config
+	if _, err := toml.DecodeFile("hamster.toml", &cfg); err != nil {
+		fmt.Println(err)
+		return nil
+	}
 	s := &Server{
 		httpServer: &http.Server{Addr: fmt.Sprintf(":%d", port), Handler: r},
-		router:     r,
+		route:      r,
 		logger:     log.New(f, "", log.LstdFlags),
 		db:         &Db{Url: dbUrl},
+		config:     &cfg,
 	}
 
 	s.addHandlers()
