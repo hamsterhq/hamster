@@ -1,7 +1,6 @@
 package hamster
 
 import (
-	"net/http"
 	"net/http/pprof"
 )
 
@@ -14,30 +13,6 @@ import (
 /1/classes/<className>	GET	Queries
 /1/classes/<className>/<objectId>	DELETE	Deleting Objects
 */
-
-//check username-password, return with access-token
-var DevAuth = func(w http.ResponseWriter, r *http.Request) {
-	/*if r.URL.User == nil || r.URL.User.Username() != "admin" {
-		http.Error(w, "", http.StatusUnauthorized)
-	}*/
-
-}
-
-//check username-password, return with access-token
-var AppAuth = func(w http.ResponseWriter, r *http.Request) {
-	/*if r.URL.User == nil || r.URL.User.Username() != "admin" {
-		http.Error(w, "", http.StatusUnauthorized)
-	}*/
-
-}
-
-//check user agent
-//for browser clients: check access-token and shared-secret
-//for other clients: check app-id and app-key
-
-var APIAuth = func(w http.ResponseWriter, r *http.Request) {
-
-}
 
 //add path handlers
 func (s *Server) addHandlers() {
