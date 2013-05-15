@@ -558,3 +558,6 @@ IndexDev: 2013/05/14 16:22:29 developers collection indexed!
 CreateDev: 2013/05/14 16:22:29 error in inserting data for: &{ObjectIdHex("")  adnaan  false   0001-01-01 00:00:00 +0000 UTC 0001-01-01 00:00:00 +0000 UTC }, email is empty 
 test: 2013/05/14 16:22:29 response: email is empty
 
+2013/05/15 14:26:38 ********Server Startup*********
+2013/05/15 14:26:38 ********++++++++++++++*********
+2013/05/15 14:26:38 hamster is now listening on http://localhost:8686
