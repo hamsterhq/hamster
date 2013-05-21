@@ -124,7 +124,8 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//login developer
+//login developer. Generate access token(email+timestamp)
+//store access_token in session
 func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) { /*
 
 		//get objectId
