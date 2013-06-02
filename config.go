@@ -17,8 +17,9 @@ type author struct {
 }
 
 type server struct {
-	Port int
-	Host string
+	Port         int
+	Host         string
+	CookieSecret string
 }
 
 type login struct {
@@ -31,8 +32,11 @@ type database struct {
 	Password string
 	Name     string
 	Host     string
+	Port     int
 }
 
 type client struct {
+	Ip     string
 	Secret string
+	Token  string
 }

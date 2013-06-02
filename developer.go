@@ -1,6 +1,7 @@
 package hamster
 
 import (
+	"fmt"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"net/http"
@@ -8,18 +9,19 @@ import (
 )
 
 var (
-	cName = "developers"
+	dName = "developers"
 )
 
 //stores developer account info
 type Developer struct {
 	Id       bson.ObjectId `bson:"_id" json:"id"`
-	ParentId string        `bson:"parentId" json:"parentId"`
+	ParentId string        `bson:"parentId" json:"parentId"` //unused change string to bson.ObjectId
 	Name     string        `bson:"name" json:"name"`
 	Email    string        `bson:"email" json:"email"`
 	Verified bool          `bson:"verified" json:"verified"`
-	Password string        `bson:"password" json:"password"`
-	Salt     string        `bson:"salt" json:"salt"`
+	Password string        `json:"password"`
+	Hash     string        `bson:"hash"`
+	Salt     string        `bson:"salt"`
 	Created  time.Time     `bson:"created" json:"created"`
 	Updated  time.Time     `bson:"updated" json:"updated"`
 	UrlToken string        `bson:"urltoken" json:"urltoken"`
@@ -36,87 +38,76 @@ func (s *Server) IndexDevelopers() {
 		Background: true,
 		Sparse:     true,
 	}
+
+	//get collection
 	session := s.db.GetSession()
 	defer session.Close()
-	c := session.DB("").C(cName)
+	c := session.DB("").C(dName)
 
 	//ensure index key exists and is unique
 
-	err := c.EnsureIndex(index)
-	if err != nil {
+	if err := c.EnsureIndex(index); err != nil {
 
 		s.logger.Printf("failed indexing developers, err: %v \n", err)
 	} else {
-		s.logger.Printf("developers collection indexed!")
+		s.logger.Printf("developers collection indexed!\n")
 	}
 
 }
 
 //POST: /developers/
 func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
-
 	s.logger.SetPrefix("CreateDev: ")
+
 	//get the request body
 	developer := &Developer{}
 
-	marshalError := s.readJson(developer, r, w)
-	if marshalError != nil {
-
-		s.logger.Printf("error in parsing body for: %v, err: %v \n", r.Body, marshalError)
-
-		http.Error(w, "Bad Data!", http.StatusBadRequest)
+	if err := s.readJson(developer, r, w); err != nil {
+		s.badRequest(r, w, err, "malformed developer json")
 		return
 
 	}
 
 	//check if email is not empty
 	if developer.Email == "" {
-		s.logger.Printf("error in inserting data for: %v, email is empty \n", developer)
-		http.Error(w, "email is empty", http.StatusInternalServerError)
+		s.internalError(r, w, nil, "empty email ")
 		return
 	}
 
-	//encrypt password
-	encrypted_password, salt, encryptPasswordError := encryptPassword(string(developer.Password))
-	if encryptPasswordError != nil {
-
-		s.logger.Printf("error encrypting password: %v \n", developer, encryptPasswordError)
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-		return
-
-	}
-
-	s.logger.Printf("password-salt \n", encrypted_password, salt)
-
-	//get db session
+	//get collection
 	session := s.db.GetSession()
 	defer session.Close()
-	c := session.DB("").C(cName)
+	c := session.DB("").C(dName)
 
 	//set fields
-	developer.Id = bson.NewObjectId()
-	//s.logger.Printf("bson objectId %v\n", developer.Id)
-
-	// UrlToken: public object id used for routes and queries
-	//todo:make it shorter and user friendly
+	developer.Id = bson.NewObjectId() //todo:make it shorter and user friendly
 	developer.UrlToken = encodeBase64Token(developer.Id.Hex())
-	developer.Password = encrypted_password
+	//encrypt password
+	hash, salt, err := encryptPassword(developer.Password)
+	if err != nil {
+		s.internalError(r, w, err, "encypt password")
+		return
+
+	}
+	developer.Hash = hash
 	developer.Salt = salt
 	developer.Created = time.Now()
 	developer.Updated = time.Now()
 
 	//insert new document
-	insertError := c.Insert(developer)
-	if insertError != nil {
 
-		s.logger.Printf("error in inserting data for: %v, err: %v \n", developer, insertError)
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-		return
+	if insert_err := c.Insert(developer); insert_err != nil {
+
+		s.internalError(r, w, insert_err, "error inserting: "+fmt.Sprintf("%v", developer))
 
 	} else {
 		s.logger.Printf("created new developer: %+v, id: %v\n", developer)
 		//serve created developer json
-		response := Response{C: encodeBase64Token(developer.Id.Hex()), S: 200}
+		access_token, err := s.genAccessToken(developer.Email)
+		if err != nil {
+			s.internalError(r, w, err, "error generating access token")
+		}
+		response := NewDeveloperResponse{ObjectId: developer.UrlToken, AccessToken: access_token}
 		s.serveJson(w, &response)
 	}
 
@@ -124,60 +115,159 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//login developer. Generate access token(email+timestamp)
-//store access_token in session
-func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) { /*
+//login using basic auth, save session to cookie
+func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("LoginDev: ")
 
-		//get objectId
+	//get email password from request
+	email, password := getUserPassword(r)
 
-		id := r.URL.Query().Get(":id")
+	//get collection
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(dName)
 
-		//get db session
-		session := s.db.GetSession()
-		defer session.Close()
-		c := session.DB("").C(cName)
+	developer := Developer{}
 
-		//find object
-		var result Developer
-		ctx := ""
-
-		if objectId != "" {
-			if findErr := c.FindId(decodeToken(objectId)).One(&result); findErr != nil {
-				http.Error(w, "not found", http.StatusNotFound)
-				return
-			}
-		} else if username != "" {
-			if findErr := c.Find().One(&result); findErr != nil {
-				http.Error(w, "not found", http.StatusNotFound)
-				return
-			}
-		} else {
-			http.Error(w, "no identifier", http.StatusNotFound)
+	//find and login developer
+	s.logger.Printf("find developer: %s %s", email, password)
+	if email != "" && password != "" {
+		if findErr := c.Find(bson.M{"email": email}).One(&developer); findErr != nil {
+			s.notFound(r, w, findErr, email+" user not found")
 			return
 		}
+		//match password and set session
+		if matchPassword(password, developer.Hash, developer.Salt) {
+			access_token, err := s.genAccessToken(developer.Email)
+			if err != nil {
+				s.internalError(r, w, err, email+" generate access token")
+			}
+			//respond with developer profile
+			response := LoginResponse{ObjectId: developer.UrlToken, AccessToken: access_token, Status: "ok"}
+			s.serveJson(w, &response)
 
-		//respond with developer profile
-		reponse := &Response{C: ctx, S: 200, D: &Developer{Name: result.Name, Email: result.Email, Verified: result.Verified}}*/
+		} else {
+
+			s.notFound(r, w, nil, email+" password match failed")
+		}
+
+	} else {
+		s.notFound(r, w, nil, "email empty")
+	}
 
 }
 
 //logout developer
 
 func (s *Server) LogoutDev(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("LogoutDev: ")
+
+	//parse body
+	logoutRequest := &LogoutRequest{}
+
+	if err := s.readJson(logoutRequest, r, w); err != nil {
+		s.badRequest(r, w, err, "malformed logout request")
+		return
+	}
+
+	//logout
+	if logout_err := s.logout(logoutRequest.Email); logout_err != nil {
+		s.internalError(r, w, logout_err, logoutRequest.Email+" : could not logout")
+	}
+
+	//response
+	response := LogoutResponse{Status: "ok"}
+	s.serveJson(w, &response)
 
 }
 
 //query developer
 func (s *Server) QueryDev(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("QueryDev: ")
+
+	//getObjectId
+	object_id := s.getObjectId(w, r)
+
+	//get collection
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(dName)
+
+	//find and serve data
+	developer := Developer{}
+	if err := c.FindId(bson.ObjectIdHex(object_id)).Limit(1).One(&developer); err != nil {
+		s.notFound(r, w, err, object_id+" : id not found")
+		return
+	}
+
+	//respond
+	response := QueryDevResponse{Name: developer.Name, Email: developer.Email}
+	s.serveJson(w, &response)
 
 }
 
 //update developer
 func (s *Server) UpdateDev(w http.ResponseWriter, r *http.Request) {
 
+	s.logger.SetPrefix("UpdateDev: ")
+
+	//getObjectId
+	object_id := s.getObjectId(w, r)
+
+	//parse body
+	updateRequest := &UpdateRequest{}
+	if err := s.readJson(updateRequest, r, w); err != nil {
+		s.badRequest(r, w, err, "malformed update request body")
+		return
+	}
+
+	//get collection
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(dName)
+
+	//change
+	var change = mgo.Change{
+		ReturnNew: true,
+		Update: bson.M{
+			"$set": bson.M{
+				"updated": time.Now(),
+				"name":    updateRequest.Name,
+			}}}
+
+	//find and update
+	developer := Developer{}
+	if _, err := c.FindId(bson.ObjectIdHex(object_id)).Apply(change, &developer); err != nil {
+		s.notFound(r, w, err, object_id+" : id not found")
+		return
+	}
+
+	//respond
+	response := QueryDevResponse{Name: developer.Name, Email: developer.Email}
+	s.serveJson(w, &response)
+
 }
 
 //get developer
 func (s *Server) DeleteDev(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("DeleteDev: ")
+
+	//getObjectId
+	object_id := s.getObjectId(w, r)
+
+	//get collection
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(dName)
+
+	//delete
+	if err := c.RemoveId(bson.ObjectIdHex(object_id)); err != nil {
+		s.notFound(r, w, err, object_id+" : id not found")
+		return
+	}
+
+	//respond
+	response := DeleteResponse{Status: "ok"}
+	s.serveJson(w, &response)
 
 }

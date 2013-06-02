@@ -22,6 +22,7 @@ email="badr.adnaan@gmail.com"
 [clients]
 	
 	[clients.browser]
+	ip= "1.1.1.1"
 	secret="mysharedsecret"
 
 [logins]

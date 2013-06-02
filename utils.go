@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 
+	"net/http"
 	"strconv"
 	//"os"
+	"errors"
 	"strings"
 	//"testing"
 )
@@ -25,6 +26,28 @@ func testHttpRequest(verb string, resource string, body string) (*http.Response,
 	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), strings.NewReader(body))
 	r.Header.Add("Content-Type", contentType)
 	return client.Do(r)
+}
+func testHttpRequestWithHeaders(verb string, resource string, body string, header map[string]string) (*http.Response, error) {
+
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), strings.NewReader(body))
+	r.Header.Add("Content-Type", contentType)
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
+
+}
+
+func testHttp(verb string, resource string, header map[string]string) (*http.Response, error) {
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), nil)
+
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
+
 }
 
 func testServer(f func(s *Server)) {
@@ -62,4 +85,78 @@ func (s *Server) serveJson(w http.ResponseWriter, v interface{}) {
 	w.Header().Set("Content-Length", strconv.Itoa(len(content)))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(content)
+}
+
+func (s *Server) getObjectId(w http.ResponseWriter, r *http.Request) string {
+	oid := r.URL.Query().Get(":objectId")
+	if oid == "" {
+		s.notFound(r, w, errors.New("objectId is empty"), "val: "+oid)
+	}
+
+	object_id := decodeToken(oid)
+	if object_id == "" {
+		s.notFound(r, w, errors.New("objectId cannot be decoded"), "val: "+oid)
+	}
+
+	return object_id
+
+}
+
+func (s *Server) getObjectName(w http.ResponseWriter, r *http.Request) string {
+	oname := r.URL.Query().Get(":objectName")
+	if oname == "" {
+		s.notFound(r, w, errors.New("objectName is empty"), "val: "+oname)
+	}
+
+	return oname
+
+}
+
+func (s *Server) getObjectParams(w http.ResponseWriter, r *http.Request) (string, string) {
+	object_name := r.URL.Query().Get(":objectName")
+	oid := r.URL.Query().Get(":objectId")
+	if oid == "" || object_name == "" {
+		s.notFound(r, w, errors.New("object params are invalid"), "val: "+object_name+" , "+oid)
+	}
+
+	object_id := decodeToken(oid)
+	if object_id == "" {
+		s.notFound(r, w, errors.New("object params cannot be decoded"), "val: "+object_name+" , "+oid)
+	}
+
+	return object_name, object_id
+
+}
+
+func (s *Server) getAppObjectId(w http.ResponseWriter, r *http.Request) string {
+	atok := r.Header.Get("X-Api-Token")
+
+	if atok == "" {
+		s.unauthorized(r, w, errors.New("token is empty"), "api token invalid")
+	}
+
+	object_id := decodeToken(atok)
+	if object_id == "" {
+		s.notFound(r, w, errors.New("app objectid cannot be decoded"), "val: "+atok)
+	}
+
+	return object_id
+
+}
+
+func (s *Server) getAppParams(w http.ResponseWriter, r *http.Request) (string, string) {
+	did := r.URL.Query().Get(":developerId")
+	oid := r.URL.Query().Get(":objectId")
+	if oid == "" || did == "" {
+		s.notFound(r, w, errors.New("app params are invalid"), "val: "+did+" , "+oid)
+	}
+
+	developer_id := decodeToken(did)
+	object_id := decodeToken(oid)
+	if object_id == "" || developer_id == "" {
+		s.notFound(r, w, errors.New("app params cannot be decoded"), "val: "+did+" , "+oid)
+	}
+
+	return developer_id, object_id
+
 }

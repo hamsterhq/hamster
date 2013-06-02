@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/adnaan/routes"
+	"github.com/garyburd/redigo/redis"
+	"github.com/gorilla/sessions"
 	"io/ioutil"
 	"log"
 	"net"
@@ -21,6 +23,7 @@ import (
 // A server controls access to all classes
 
 //the fcgi server. Not entirely sure why fcgi?. But it sounds cool:/
+
 type Server struct {
 	listener   net.Listener
 	logger     *log.Logger
@@ -28,6 +31,8 @@ type Server struct {
 	route      *routes.RouteMux
 	db         *Db
 	config     *Config
+	cookie     *sessions.CookieStore
+	redisConn  func() redis.Conn
 }
 
 //dbUrl:"mongodb://adnaan:pass@localhost:27017/hamster"
@@ -41,19 +46,38 @@ func NewServer(port int, dbUrl string) *Server {
 	}
 	//log.SetOutput(f)
 	//log.SetOutput(os.Stdout)
-
+	//router
 	r := routes.New()
+	//toml config
 	var cfg Config
 	if _, err := toml.DecodeFile("hamster.toml", &cfg); err != nil {
 		fmt.Println(err)
 		return nil
 	}
+	//cookie store
+	ck := sessions.NewCookieStore([]byte(cfg.Servers["local"].CookieSecret))
+
+	//redis
+	var getRedis = func() redis.Conn {
+
+		c, err := redis.Dial("tcp", ":6379")
+		if err != nil {
+			panic(err)
+		}
+
+		return c
+
+	}
+
+	//initialize server
 	s := &Server{
-		httpServer: &http.Server{Addr: fmt.Sprintf(":%d", port), Handler: r},
+		httpServer: &http.Server{Addr: fmt.Sprintf(":%d", cfg.Servers["local"].Port), Handler: r},
 		route:      r,
 		logger:     log.New(f, "", log.LstdFlags),
-		db:         &Db{Url: dbUrl},
+		db:         &Db{Url: cfg.DB["mongo"].Host},
 		config:     &cfg,
+		cookie:     ck,
+		redisConn:  getRedis,
 	}
 
 	s.addHandlers()

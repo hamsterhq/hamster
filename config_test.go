@@ -8,7 +8,7 @@ import (
 
 func TestTomlParsing(t *testing.T) {
 	var config Config
-	if _, err := toml.DecodeFile("hamster_sample.toml", &config); err != nil {
+	if _, err := toml.DecodeFile("hamster.toml", &config); err != nil {
 		t.Fatalf("toml failed to parse: %v", err)
 		return
 	}
@@ -30,7 +30,9 @@ func TestTomlParsing(t *testing.T) {
 	}
 
 	for clientName, client := range config.Clients {
-		fmt.Printf("Client: %s , %s\n", clientName, client.Secret)
+		fmt.Printf("Client: %s , %s, %s\n", clientName, client.Ip, client.Secret)
 	}
+
+	fmt.Printf("Server: %d , %s\n", config.Servers["local"].Port, config.Servers["local"].Host)
 
 }

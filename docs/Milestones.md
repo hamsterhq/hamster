@@ -1,6 +1,6 @@
 25/05
 1. Generate Access Token, CSRF Token, App-ID, App-Key
-2. Dev Auth, Object Auth, Browser Auth, Rest API Client Aut
+2. Dev Auth, Object Auth, Browser Auth, Rest API Client Auth
 3. CSRF Token Authentication
 4. Testing code for the above
 

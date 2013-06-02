@@ -10,6 +10,7 @@ email="badr.adnaan@gmail.com"
 	[servers.local]
 	port = 8686
 	host = "http://localhost:8686"
+	cookiesecret="mycookiesecret"
 
 [databases]
 
@@ -18,11 +19,22 @@ email="badr.adnaan@gmail.com"
 	password=""
 	dbname=""
 	host="mongodb://adnaan:pass@localhost:27017/hamster"
+	port = 27017
+	[databases.redis]
+	port = 6379
+	username =""
+	password=""
+	dbname=""
+	host=""
+	
+
 
 [clients]
 	
 	[clients.browser]
-	secret="mysharedsecret"
+	ip= "127.0.0.1"
+	token="mysharedtoken"
+	secret="YI1ZYdopn6usnQ/5gMAHg8+pNh6D0DdaJkytdoLWUj0="
 
 [logins]
 	
