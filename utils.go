@@ -4,8 +4,9 @@ import (
 	//"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
+	"io"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	//"os"
@@ -37,6 +38,16 @@ func testHttpRequestWithHeaders(verb string, resource string, body string, heade
 	}
 	return client.Do(r)
 
+}
+
+func testPostPng(resource string, fileReader io.Reader, header map[string]string) (*http.Response, error) {
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest("POST", fmt.Sprintf("%s%s", host, resource), fileReader)
+	r.Header.Add("Content-Type", "image/png")
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
 }
 
 func testHttp(verb string, resource string, header map[string]string) (*http.Response, error) {
@@ -85,6 +96,7 @@ func (s *Server) serveJson(w http.ResponseWriter, v interface{}) {
 	w.Header().Set("Content-Length", strconv.Itoa(len(content)))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(content)
+
 }
 
 func (s *Server) getObjectId(w http.ResponseWriter, r *http.Request) string {
@@ -109,6 +121,36 @@ func (s *Server) getObjectName(w http.ResponseWriter, r *http.Request) string {
 	}
 
 	return oname
+
+}
+
+func (s *Server) getFileName(w http.ResponseWriter, r *http.Request) string {
+	fname := r.URL.Query().Get(":fileName")
+	if fname == "" {
+		s.notFound(r, w, errors.New("fileName is empty"), "val: "+fname)
+	}
+
+	return fname
+
+}
+
+func (s *Server) getFileParams(w http.ResponseWriter, r *http.Request) (string, string) {
+	fname := r.URL.Query().Get(":fileName")
+	if fname == "" {
+		s.notFound(r, w, errors.New("fileName is empty"), "val: "+fname)
+	}
+
+	fid := r.URL.Query().Get(":fileId")
+	if fid == "" {
+		s.notFound(r, w, errors.New("fileId is empty"), "val: "+fid)
+	}
+
+	file_id := decodeToken(fid)
+	if file_id == "" {
+		s.notFound(r, w, errors.New("object params cannot be decoded"), "val: "+fname+" , "+file_id)
+	}
+
+	return fname, file_id
 
 }
 

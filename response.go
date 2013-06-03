@@ -51,6 +51,10 @@ type DeleteResponse struct {
 	Status string `json:"status"`
 }
 
+type OKResponse struct {
+	Status string `json:"status"`
+}
+
 type AppResponse struct {
 	ApiToken  string `json:"apitoken"`
 	ApiSecret string `json:"apisecret"`
@@ -60,4 +64,9 @@ type AppResponse struct {
 
 type AllAppResponse struct {
 	Responses []AppResponse `json:"responses"`
+}
+
+type SaveFileResponse struct {
+	FileId   string `json:"file_id"`
+	FileName string `json:"file_name"`
 }

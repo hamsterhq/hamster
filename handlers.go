@@ -18,6 +18,7 @@ func (s *Server) addHandlers() {
 	s.route.FilterPrefixPath("/", s.BaseAuth)
 	s.route.FilterPrefixPath("/api/v1/developers/", s.DeveloperAuth)
 	s.route.FilterPrefixPath("/api/v1/objects/", s.ObjectAuth)
+	s.route.FilterPrefixPath("/api/v1/files/", s.ObjectAuth)
 
 	/*Developer*/
 	s.route.Post("/api/v1/developers/", s.CreateDev)
@@ -55,9 +56,9 @@ func (s *Server) addHandlers() {
 	//delete object
 	s.route.Del("/api/v1/objects/:objectName/:objectId", s.DeleteObject)
 
-	//files
+	//File
 
-	//s.route.Post("/files/<filename>", s.SaveFile)
-	//s.route.Get("/files/<filename>", s.GetFile)
+	s.route.Post("/api/v1/files/:fileName", s.SaveFile)
+	s.route.Get("/api/v1/files/:fileName/:fileId", s.GetFile)
 
 }

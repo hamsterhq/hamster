@@ -178,25 +178,28 @@ func (s *Server) CreateObjects(w http.ResponseWriter, r *http.Request) {
 	//then insert object
 	if insert_err := c.Insert(hamster_objects); insert_err != nil {
 
-		s.internalError(r, w, insert_err, "error inserting: "+fmt.Sprintf("%v", hamster_obj))
+		s.internalError(r, w, insert_err, "error inserting: "+fmt.Sprintf("%v", hamster_objects))
 
 	} else {
 
-		//find inlined object
-		var result []map[string]interface{}
-		if err := c.FindId(hamster_obj.Id).Limit(1).One(&result); err != nil {
-			s.notFound(r, w, err, hamster_obj.Id.Hex()+" : id not found")
+		//find inlined objects
+		var results []map[string]interface{}
+		if err := c.Find(bson.M{"created": bson.M{"$gte": time_now, "$lt": time.Now()}}).All(&results); err != nil {
+			s.notFound(r, w, err, " : objects not found")
 			return
 		}
 
-		//append object_id,parent_id
-		delete(result, "_id")
-		result["object_id"] = encodeBase64Token(hamster_obj.Id.Hex())
-		delete(result, "parentId")
-		result["parent_id"] = encodeBase64Token(hamster_obj.ParentId.Hex())
+		for _, result := range results {
+			//append object_id,parent_id
+			//convert object id to base64
+			result["object_id"] = encodeBase64Token(result["_id"].(bson.ObjectId).Hex())
+			delete(result, "_id")
+			result["parent_id"] = encodeBase64Token(result["parentId"].(bson.ObjectId).Hex())
+			delete(result, "parentId")
+		}
 
-		s.logger.Printf("created new object: %+v, id: %v\n", result)
-		s.serveJson(w, &result)
+		s.logger.Printf("created new objects: %+v, id: %v\n", results)
+		s.serveJson(w, &results)
 	}
 
 }
