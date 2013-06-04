@@ -54,6 +54,8 @@ func (s *Server) DeveloperAuth(w http.ResponseWriter, r *http.Request) {
 //Authenticates object level requests
 func (s *Server) ObjectAuth(w http.ResponseWriter, r *http.Request) {
 
+	//TODO: implement this!!!
+
 }
 
 //Allow ip

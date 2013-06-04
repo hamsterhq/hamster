@@ -6,6 +6,8 @@ A proper documentation will be released when the code is more stable. Code is we
 
 See: `hamster_test.go` & do `go test`
 
+Auto-Generated godoc: [http://godoc.org/github.com/adnaan/hamster](http://godoc.org/github.com/adnaan/hamster)
+
 **Dependencies**
 
 1. Mongodb: default port.
