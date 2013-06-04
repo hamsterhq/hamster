@@ -36,7 +36,7 @@ func (s *Server) CreateObject(w http.ResponseWriter, r *http.Request) {
 	defer session.Close()
 	a := session.DB("").C(aName)
 
-	//change
+	//change:update new object type name in app if it doesn't exist
 	var change = mgo.Change{
 		ReturnNew: true,
 		Update: bson.M{
@@ -127,7 +127,7 @@ func (s *Server) CreateObjects(w http.ResponseWriter, r *http.Request) {
 	defer session.Close()
 	a := session.DB("").C(aName)
 
-	//change
+	//change:update new object type name in app if it doesn't exist
 	var change = mgo.Change{
 		ReturnNew: true,
 		Update: bson.M{
