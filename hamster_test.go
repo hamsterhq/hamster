@@ -795,17 +795,17 @@ func TestDeleteDeveloperOK(t *testing.T) {
 		res, err := testHttpRequestWithHeaders("DELETE", url, ``, headers)
 
 		if err != nil {
-			t.Fatalf("unable to query: %v , %v", url, err)
+			t.Fatalf("unable to delete: %v , %v", url, err)
 
 		} else {
 
 			body, _ := ioutil.ReadAll(res.Body)
 
 			if res.StatusCode != 200 {
-				t.Fatalf("unable to query: %v , %v", url, string(body))
+				t.Fatalf("unable to delete: %v , %v", url, string(body))
 			}
 
-			//fmt.Printf("query response: %v\n ", string(body))
+			//fmt.Printf("delete response: %v\n ", string(body))
 
 		}
 
