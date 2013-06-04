@@ -22,7 +22,7 @@ type Server struct {
 	route      *routes.RouteMux
 	db         *Db
 	config     *Config
-	cookie     *sessions.CookieStore
+	cookie     *sessions.CookieStore //unused
 	redisConn  func() redis.Conn
 }
 
