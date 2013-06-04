@@ -21,6 +21,4 @@ _testmain.go
 
 *.exe
 conf/app.conf
-screenmetric
 *.log
-*.png
