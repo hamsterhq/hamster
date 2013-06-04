@@ -1,3 +1,4 @@
+/*Manage Developer*/
 package hamster
 
 import (
@@ -12,14 +13,14 @@ var (
 	dName = "developers"
 )
 
-//stores developer account info
+//Stores developer account info
 type Developer struct {
 	Id       bson.ObjectId `bson:"_id" json:"id"`
-	ParentId string        `bson:"parentId" json:"parentId"` //unused change string to bson.ObjectId
+	ParentId string        `bson:"parentId" json:"parentId"` //unused. change string to bson.ObjectId
 	Name     string        `bson:"name" json:"name"`
 	Email    string        `bson:"email" json:"email"`
 	Verified bool          `bson:"verified" json:"verified"`
-	Password string        `json:"password"`
+	Password string        `json:"password"` //only used for parsing incoming json
 	Hash     string        `bson:"hash"`
 	Salt     string        `bson:"salt"`
 	Created  time.Time     `bson:"created" json:"created"`
@@ -55,7 +56,7 @@ func (s *Server) IndexDevelopers() {
 
 }
 
-//POST: /developers/
+//POST: /api/v1/developers/ handler
 func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateDev: ")
 
@@ -115,7 +116,7 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//login using basic auth, save session to cookie
+//POST: /api/v1/developers/login/ handler
 func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("LoginDev: ")
 
@@ -157,8 +158,7 @@ func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//logout developer
-
+//POST:/api/v1/developers/logout/ handler
 func (s *Server) LogoutDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("LogoutDev: ")
 
@@ -181,7 +181,7 @@ func (s *Server) LogoutDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//query developer
+//GET:/api/v1/developers/:objectId handler
 func (s *Server) QueryDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryDev: ")
 
@@ -206,7 +206,7 @@ func (s *Server) QueryDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//update developer
+//PUT:/api/v1/developers/:objectId handler
 func (s *Server) UpdateDev(w http.ResponseWriter, r *http.Request) {
 
 	s.logger.SetPrefix("UpdateDev: ")
@@ -248,7 +248,7 @@ func (s *Server) UpdateDev(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//get developer
+//DELETE:/api/v1/developers/:objectId
 func (s *Server) DeleteDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("DeleteDev: ")
 

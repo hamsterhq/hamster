@@ -1,3 +1,4 @@
+/*Toml config types*/
 package hamster
 
 /*.toml reader struct*/

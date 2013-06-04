@@ -1,3 +1,4 @@
+/*Utility functions and methods for authoriztion*/
 package hamster
 
 import (
@@ -17,6 +18,7 @@ import (
 	"time"
 )
 
+//Allow only verified ip's from config
 func (s *Server) BaseAuth(w http.ResponseWriter, r *http.Request) {
 	ip := strings.Split(r.RemoteAddr, ":")
 
@@ -29,6 +31,9 @@ func (s *Server) BaseAuth(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Authenticate developer. Access Token is generated using a shared secret between
+//Hamster and the client. The shared secret is manually configured in hamster.toml.
+//TODO: find a better implementation
 func (s *Server) DeveloperAuth(w http.ResponseWriter, r *http.Request) {
 	access_token := r.Header.Get("X-Access-Token")
 
@@ -46,18 +51,12 @@ func (s *Server) DeveloperAuth(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//Authenticates object level requests
 func (s *Server) ObjectAuth(w http.ResponseWriter, r *http.Request) {
 
 }
 
-var AppAuth = func(w http.ResponseWriter, r *http.Request) {
-
-}
-
-var APIAuth = func(w http.ResponseWriter, r *http.Request) {
-
-}
-
+//Allow ip
 func (s *Server) ipAllowed(ip string) bool {
 	for _, client := range s.config.Clients {
 		if ip == client.Ip {
@@ -67,6 +66,7 @@ func (s *Server) ipAllowed(ip string) bool {
 	return false
 }
 
+//Get Basic user password
 func getUserPassword(r *http.Request) (string, string) {
 
 	s := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
@@ -209,6 +209,8 @@ func randomKey() string {
 	return base64.StdEncoding.EncodeToString(k)
 }
 
+//Generate time based access token using shared secret. See fernet project
+//for more details
 func (s *Server) genAccessToken(email string) (string, error) {
 	//encrypt token
 	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
@@ -228,6 +230,7 @@ func (s *Server) genAccessToken(email string) (string, error) {
 
 }
 
+//Validate access token
 func (s *Server) validateAccessToken(token string) (string, bool) {
 
 	btok, err := base64.URLEncoding.DecodeString(token)
@@ -255,6 +258,8 @@ func (s *Server) validateAccessToken(token string) (string, bool) {
 
 }
 
+//Logout developer
+//TODO: find a better way to handle login/logout
 func (s *Server) logout(email string) error {
 
 	c := s.redisConn()

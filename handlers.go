@@ -1,3 +1,4 @@
+/*Routers*/
 package hamster
 
 import (
@@ -13,6 +14,7 @@ func (s *Server) addHandlers() {
 	s.route.AddRoute("GET", "/debug/pprof/profile", pprof.Profile)
 	s.route.AddRoute("GET", "/debug/pprof/symbol", pprof.Symbol)
 
+	//Route filters
 	s.route.FilterPrefixPath("/", s.BaseAuth)
 	s.route.FilterPrefixPath("/api/v1/developers/", s.DeveloperAuth)
 	s.route.FilterPrefixPath("/api/v1/objects/", s.ObjectAuth)
@@ -54,8 +56,7 @@ func (s *Server) addHandlers() {
 	//delete object
 	s.route.Del("/api/v1/objects/:objectName/:objectId", s.DeleteObject)
 
-	//File
-
+	/*File*/
 	s.route.Post("/api/v1/files/:fileName", s.SaveFile)
 	s.route.Get("/api/v1/files/:fileName/:fileId", s.GetFile)
 

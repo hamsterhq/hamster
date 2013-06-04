@@ -1,6 +1,5 @@
+/*http response formats*/
 package hamster
-
-/*http responses*/
 
 type NewDeveloperResponse struct {
 	ObjectId    string `json:"object_id"`

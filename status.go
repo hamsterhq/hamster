@@ -1,3 +1,4 @@
+/*Error status methods*/
 package hamster
 
 import (

@@ -1,10 +1,10 @@
-**Hamster** is a simplistic parse.com like backend as a service(BaaS).It provides a REST interface to datastores for CRUD operations plus some services.
+**Hamster** is a simplistic parse.com like backend as a service(BaaS).It provides a REST interface to datastores for CRUD operations plus some helper services.
 
-Documentation is coming soon...yep...soon.Though you can look at the test code which pretty much covers all the features implemented.
+A proper documentation will be released when the code is more stable. Code is well commented with feature complete test coverage.
 
 >*"Writing test code is better than writing documentation"* - Lazy and Procastinating Anonymous Guy.
 
-See: hamster_test.go & `go test`
+See: `hamster_test.go` & do `go test`
 
 **Dependencies**
 
@@ -17,7 +17,7 @@ Check hamster.toml to change mongodb host string with your own username:password
 **Why Mongodb?**
 
 Hamster is primarily focussed on mobile apps which need quick and dirty datastores. Another reason was the awesome Go mongodb driver:
-http://labix.org/mgo. Thank you Gustavo Niemeyer!
+http://labix.org/mgo. Thank you Gustavo Niemeyer!. It helped me getting started very quickly.
 
 That said, there is no reason why we can't have sql databases as an option. Open to implementing MySQL, PostgreSQL integration
 in the future.
@@ -38,7 +38,7 @@ project at our hands.
 **What is the future of this project?**
 
 
-I am building my start-up's backend around Hamster, so it's going to be around for a while. 
+I am building my start-up's backend around Hamster, so it's going to be actively developed. 
 
 **Features Implemented:**
 
@@ -57,13 +57,14 @@ Please go through `hamster_test.go`. I will try to get to documentation soon.
 4. API metering and throttling
 5. Email service(email verification, forgot password etc.)
 6. Javascript, Python, Ruby, Java, PHP clients.
-7. Analytics.
+7. Dashboard
+8. Analytics.
 
 
 **Contributions**
 
 
-Not accepting pull requests right now due to the highly unstable code, but code reviews, feature requests and issues are most welcome. The pull
+Not accepting pull requests right now due to the unstable code, but code reviews, feature requests and issues are most welcome. The pull
 request freeze is expected to be around for another four weeks. Sorry about that!
 
 **Why is Licence Missing?**

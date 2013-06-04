@@ -1,6 +1,15 @@
+/*
+The Hamster Server. The Server type holds instances of all the components,
+*effectively making it possible to collapse all the code into one file. The separation
+* of code is only for readability. To use it as a package simply:
+* import ("github.com/adnaan/hamster")
+* server := hamster.NewServer(port, mongoHost)
+* //server.Quiet()//disable logging
+* server.ListenAndServe()
+* Also change hamster.toml for custom configuration.
+* TODO: Pass hamster.toml as argument to the server
+*/
 package hamster
-
-/*Hamster Server*/
 
 import (
 	"fmt"
@@ -15,6 +24,7 @@ import (
 	"os"
 )
 
+//The server type holds instances of all components
 type Server struct {
 	listener   net.Listener
 	logger     *log.Logger

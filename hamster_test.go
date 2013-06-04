@@ -12,6 +12,10 @@ import (
 	"testing"
 )
 
+/*Tests ending with OK is a positive test, while others are negative tests
+*TODO: write more negative tests.
+ */
+
 var access_token = ""
 var dev_id = ""
 var api_token = ""
@@ -21,7 +25,6 @@ var object_name = ""
 var file_id = ""
 var file_name = ""
 
-//developers handlers
 func TestCreateDeveloperHeaderEmpty(t *testing.T) {
 	testServer(func(s *Server) {
 		res, err := testHttpRequest("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
@@ -158,7 +161,7 @@ func TestCreateDeveloperEmailExists(t *testing.T) {
 
 func TestLoginOK(t *testing.T) {
 	testServer(func(s *Server) {
-		//test login
+
 		host = "http://localhost:8686"
 		headers := make(map[string]string)
 		userpass := base64.StdEncoding.EncodeToString([]byte("badr.adnaan@gmail.com:mypassword"))
@@ -191,10 +194,9 @@ func TestLoginOK(t *testing.T) {
 
 }
 
-func TestQueryDeveloper(t *testing.T) {
+func TestQueryDeveloperOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -222,10 +224,9 @@ func TestQueryDeveloper(t *testing.T) {
 
 }
 
-func TestUpdateDeveloper(t *testing.T) {
+func TestUpdateDeveloperOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -253,10 +254,9 @@ func TestUpdateDeveloper(t *testing.T) {
 
 }
 
-func TestCreateApp(t *testing.T) {
+func TestCreateAppOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -293,10 +293,9 @@ func TestCreateApp(t *testing.T) {
 
 }
 
-func TestQueryApp(t *testing.T) {
+func TestQueryAppOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -324,10 +323,9 @@ func TestQueryApp(t *testing.T) {
 
 }
 
-func TestQueryAllApps(t *testing.T) {
+func TestQueryAllAppsOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -355,10 +353,9 @@ func TestQueryAllApps(t *testing.T) {
 
 }
 
-func TestUpdateApp(t *testing.T) {
+func TestUpdateAppOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token
@@ -408,7 +405,7 @@ func getGameScore(score int, name string, t *testing.T) string {
 
 }
 
-func TestCreateObject(t *testing.T) {
+func TestCreateObjectOK(t *testing.T) {
 
 	testServer(func(s *Server) {
 		//test create
@@ -447,10 +444,9 @@ func TestCreateObject(t *testing.T) {
 
 }
 
-func TestQueryObject(t *testing.T) {
+func TestQueryObjectOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Api-Token"] = api_token
@@ -510,7 +506,7 @@ func getGameScoreBatch(baseScore int, baseName string, t *testing.T) string {
 
 }
 
-func TestCreateManyObjects(t *testing.T) {
+func TestCreateManyObjectsOK(t *testing.T) {
 
 	testServer(func(s *Server) {
 		//test create
@@ -549,10 +545,9 @@ func TestCreateManyObjects(t *testing.T) {
 
 }
 
-func TestQueryObjects(t *testing.T) {
+func TestQueryObjectsOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Api-Token"] = api_token
@@ -581,10 +576,10 @@ func TestQueryObjects(t *testing.T) {
 
 }
 
-func TestUpdateObject(t *testing.T) {
+func TestUpdateObjectOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
+
 		headers := make(map[string]string)
 		headers["X-Api-Token"] = api_token
 		headers["X-Api-Secret"] = api_secret
@@ -612,7 +607,7 @@ func TestUpdateObject(t *testing.T) {
 
 }
 
-func TestSaveImage(t *testing.T) {
+func TestSaveImageOK(t *testing.T) {
 	testServer(func(s *Server) {
 		//test create
 		filePath := "docs/"
@@ -661,7 +656,7 @@ func TestSaveImage(t *testing.T) {
 				t.Fatalf("unable to save file: %v , %v", url, string(body))
 			}
 
-			fmt.Printf("save file response: %v \n", string(body))
+			//fmt.Printf("save file response: %v \n", string(body))
 			var response map[string]interface{}
 			err := json.Unmarshal(body, &response)
 			if err != nil {
@@ -677,10 +672,9 @@ func TestSaveImage(t *testing.T) {
 
 }
 
-func TestGetImage(t *testing.T) {
+func TestGetImageOK(t *testing.T) {
 
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Api-Token"] = api_token
@@ -725,7 +719,7 @@ func TestGetImage(t *testing.T) {
 	})
 
 }
-func TestDeleteObject(t *testing.T) {
+func TestDeleteObjectOK(t *testing.T) {
 
 	testServer(func(s *Server) {
 		//test delete
@@ -757,7 +751,7 @@ func TestDeleteObject(t *testing.T) {
 
 }
 
-func TestDeleteApp(t *testing.T) {
+func TestDeleteAppOK(t *testing.T) {
 
 	testServer(func(s *Server) {
 		//test delete
@@ -788,7 +782,7 @@ func TestDeleteApp(t *testing.T) {
 
 }
 
-func TestDeleteDeveloper(t *testing.T) {
+func TestDeleteDeveloperOK(t *testing.T) {
 
 	testServer(func(s *Server) {
 		//test delete
@@ -821,7 +815,6 @@ func TestDeleteDeveloper(t *testing.T) {
 
 func TestLogoutOK(t *testing.T) {
 	testServer(func(s *Server) {
-		//test login
 
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = access_token

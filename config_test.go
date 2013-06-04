@@ -12,7 +12,8 @@ func TestTomlParsing(t *testing.T) {
 		t.Fatalf("toml failed to parse: %v", err)
 		return
 	}
-
+	fmt.Println("Server Config: \n")
+	fmt.Println("============== \n")
 	fmt.Printf("Title: %s\n", config.Title)
 	fmt.Printf("Author: %s (%s, %s)\n",
 		config.Author.Name, config.Author.Organization, config.Author.Email)
@@ -35,4 +36,5 @@ func TestTomlParsing(t *testing.T) {
 
 	fmt.Printf("Server: %d , %s\n", config.Servers["local"].Port, config.Servers["local"].Host)
 
+	fmt.Println("============== \n")
 }

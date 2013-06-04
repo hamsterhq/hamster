@@ -1,3 +1,4 @@
+/*Create app*/
 package hamster
 
 import (
@@ -11,6 +12,7 @@ import (
 
 var aName = "apps"
 
+//The App type
 type App struct {
 	Id        bson.ObjectId `bson:"_id,omitempty" json:"-"`
 	ParentId  bson.ObjectId `bson:"parentId" json:"parentId"`
@@ -25,6 +27,7 @@ type App struct {
 	Objects   []string      `bson:"objects" json:"objects"`
 }
 
+//POST: "/api/v1/developers/:developerId/apps/" handler
 func (s *Server) CreateApp(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateApp: ")
 
@@ -82,7 +85,7 @@ func (s *Server) CreateApp(w http.ResponseWriter, r *http.Request) {
 	//get apps collection
 	c := session.DB("").C(aName)
 
-	//then insert app
+	//then insert app and respond
 	if insert_err := c.Insert(app); insert_err != nil {
 
 		s.internalError(r, w, insert_err, "error inserting: "+fmt.Sprintf("%v", app))
@@ -95,7 +98,7 @@ func (s *Server) CreateApp(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//get app
+//GET "/api/v1/developers/apps/:objectId"
 func (s *Server) QueryApp(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryApp: ")
 
@@ -121,7 +124,7 @@ func (s *Server) QueryApp(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//query app
+//GET "/api/v1/developers/:developerId/apps/"
 func (s *Server) QueryAllApps(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryAllApps: ")
 
@@ -159,7 +162,7 @@ func (s *Server) QueryAllApps(w http.ResponseWriter, r *http.Request) {
 	s.serveJson(w, &re)
 }
 
-//update app
+//PUT "/api/v1/developers/apps/:objectId"
 func (s *Server) UpdateApp(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("UpdateApp: ")
 
@@ -201,7 +204,7 @@ func (s *Server) UpdateApp(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//delete app
+//DELETE "/api/v1/developers/apps/:objectId"
 func (s *Server) DeleteApp(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("DeleteApp: ")
 

@@ -1,3 +1,4 @@
+/*http request formats*/
 package hamster
 
 type LogoutRequest struct {

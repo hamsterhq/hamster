@@ -1,3 +1,4 @@
+/*Mongodb utility methods*/
 package hamster
 
 import (

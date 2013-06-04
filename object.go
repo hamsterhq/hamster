@@ -1,3 +1,6 @@
+/*User defined schemaless objects. Each new object name is
+* a new collection.
+ */
 package hamster
 
 import (
@@ -24,6 +27,7 @@ type HamsterObject struct {
 }
 
 //create new user defined object
+//POST:/api/v1/objects/:objectName  handler
 func (s *Server) CreateObject(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateObject: ")
 	//get objectName
@@ -104,6 +108,8 @@ func (s *Server) CreateObject(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//create multiple user defined object
+//POST:/api/v1/objects/ handler
 func (s *Server) CreateObjects(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateObjects: ")
 	//get param
@@ -204,7 +210,7 @@ func (s *Server) CreateObjects(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//query object
+//GET: /api/v1/objects/:objectName/:objectId handler
 func (s *Server) QueryObject(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryObject: ")
 	object_name, object_id := s.getObjectParams(w, r)
@@ -232,7 +238,7 @@ func (s *Server) QueryObject(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//query objects
+//GET: /api/v1/objects/:objectName handler
 func (s *Server) QueryObjects(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryObjects: ")
 
@@ -264,7 +270,7 @@ func (s *Server) QueryObjects(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//update object
+//PUT: /api/v1/objects/:objectName/:objectId
 func (s *Server) UpdateObject(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("UpdateObject: ")
 	object_name, object_id := s.getObjectParams(w, r)
@@ -308,7 +314,7 @@ func (s *Server) UpdateObject(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//delete object
+//DELETE:/api/v1/objects/:objectName/:objectId
 func (s *Server) DeleteObject(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("DeleteObject: ")
 
