@@ -1,8 +1,0 @@
-[
-{
-	"x-session_token": "on-login-ok-generated-session-token-stored-in-a-cookie-store",
-	"x-secret":"time-lapsed-secret-generated-by-browser-client-using-the-shared-secret", 
-	"now": "1985-10-26T01:20:01-07:00"
-
-}
-]
