@@ -6,7 +6,7 @@ Documentation is coming soon...yep...soon.Though you can look at the test code w
 
 See: hamster_test.go & `go test`
 
-**Dependancies**
+**Dependencies**
 
 1. Mongodb: default port.
 2. Redis: default port.

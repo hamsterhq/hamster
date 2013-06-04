@@ -615,10 +615,10 @@ func TestUpdateObject(t *testing.T) {
 func TestSaveImage(t *testing.T) {
 	testServer(func(s *Server) {
 		//test create
-
-		fileName := "myimage.png"
+		filePath := "docs/"
+		fileName := "gophers.png"
 		file_name = fileName
-		file, err := os.Open(fileName)
+		file, err := os.Open(filePath + fileName)
 		if err != nil {
 			t.Fatalf("unable to open image: %v", err)
 		}
@@ -703,7 +703,7 @@ func TestGetImage(t *testing.T) {
 
 			//fmt.Printf("object query response: %v \n", string(body))
 			//write file
-			f, err := os.OpenFile("myimage_out.png", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+			f, err := os.OpenFile("docs/download.png", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 			if err != nil {
 				t.Fatalf("unable to open image ")
 
