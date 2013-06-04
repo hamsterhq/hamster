@@ -50,17 +50,9 @@ func (s *Server) ObjectAuth(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//check access token and csrf secret(fernet)
 var AppAuth = func(w http.ResponseWriter, r *http.Request) {
-	/*if r.URL.User == nil || r.URL.User.Username() != "admin" {
-		http.Error(w, "", http.StatusUnauthorized)
-	}*/
 
 }
-
-//check user agent
-//for browser clients: check access-token and csrf token
-//for other clients: check app-id and app-key
 
 var APIAuth = func(w http.ResponseWriter, r *http.Request) {
 
@@ -92,23 +84,6 @@ func getUserPassword(r *http.Request) (string, string) {
 	}
 
 	return pair[0], pair[1]
-
-}
-
-//generate appid: appname + createdat
-func GenerateAppID() {
-
-}
-
-func GenerateApiKey() {
-
-}
-
-func FindAppID() {
-
-}
-
-func ValidateApiKey() {
 
 }
 

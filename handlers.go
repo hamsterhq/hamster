@@ -7,8 +7,6 @@ import (
 //add path handlers
 func (s *Server) addHandlers() {
 
-	//account handlers
-
 	//add pprof path handlers
 	s.route.AddRoute("GET", "/debug/pprof", pprof.Index)
 	s.route.AddRoute("GET", "/debug/pprof/cmdline", pprof.Cmdline)

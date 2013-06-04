@@ -2,7 +2,7 @@ title="Hamster Config"
 
 [author]
 name="Adnaan Badr"
-organization="hamster"
+organization="Hamster"
 email="badr.adnaan@gmail.com"
 
 [servers]
@@ -39,5 +39,5 @@ email="badr.adnaan@gmail.com"
 [logins]
 	
 	[logins.google]
-	id= "a69c7cca3b3121a40934"
-	secret="1ac41f49814k9asdfs9fd798we87s8f79904abaa91ac.apps.googleusercontent.com"
+	id= ""
+	secret=""

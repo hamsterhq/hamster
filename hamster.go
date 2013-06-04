@@ -15,15 +15,6 @@ import (
 	"os"
 )
 
-//http://blog.semantics3.com/building-a-paid-api-offering/
-//db/apps/:name/classes/:name
-//base path:db/apps/:name-->identified by each handler from headers
-//relative path:/classes/:name-->from request params
-//class:json from request body
-// A server controls access to all classes
-
-//the fcgi server. Not entirely sure why fcgi?. But it sounds cool:/
-
 type Server struct {
 	listener   net.Listener
 	logger     *log.Logger
