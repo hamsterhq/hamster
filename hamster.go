@@ -3,11 +3,12 @@ The Hamster Server. The Server type holds instances of all the components,
 *effectively making it possible to collapse all the code into one file. The separation
 * of code is only for readability. To use it as a package simply:
 * import ("github.com/adnaan/hamster")
-* server := hamster.NewServer(port, mongoHost)
+* server := hamster.NewServer()
 * //server.Quiet()//disable logging
 * server.ListenAndServe()
 * Also change hamster.toml for custom configuration.
 * TODO: Pass hamster.toml as argument to the server
+* TODO: make handler methods local, model method exported for pkg/rpc support
 */
 package hamster
 
@@ -81,6 +82,7 @@ func NewServer() *Server {
 		redisConn:  getRedis,
 	}
 
+	s.logger.SetFlags(log.Lshortfile)
 	s.addHandlers()
 
 	return s

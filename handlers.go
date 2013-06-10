@@ -15,10 +15,10 @@ func (s *Server) addHandlers() {
 	s.route.AddRoute("GET", "/debug/pprof/symbol", pprof.Symbol)
 
 	//Route filters
-	s.route.FilterPrefixPath("/", s.BaseAuth)
-	s.route.FilterPrefixPath("/api/v1/developers/", s.DeveloperAuth)
-	s.route.FilterPrefixPath("/api/v1/objects/", s.ObjectAuth)
-	s.route.FilterPrefixPath("/api/v1/files/", s.ObjectAuth)
+	s.route.FilterPrefixPath("/", s.baseAuth)
+	s.route.FilterPrefixPath("/api/v1/developers/", s.developerAuth)
+	s.route.FilterPrefixPath("/api/v1/objects/", s.objectAuth)
+	s.route.FilterPrefixPath("/api/v1/files/", s.objectAuth)
 
 	/*Developer*/
 	s.route.Post("/api/v1/developers/", s.CreateDev)

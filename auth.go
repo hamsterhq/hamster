@@ -9,9 +9,11 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/kr/fernet"
 	"hash"
+	"labix.org/v2/mgo/bson"
 	"net/http"
 	"strings"
 	"sync"
@@ -19,8 +21,11 @@ import (
 )
 
 //Allow only verified ip's from config
-func (s *Server) BaseAuth(w http.ResponseWriter, r *http.Request) {
+func (s *Server) baseAuth(w http.ResponseWriter, r *http.Request) {
 	ip := strings.Split(r.RemoteAddr, ":")
+
+	s.logger.SetPrefix("BaseAuth:")
+	s.logger.Printf("%v  %v", r.Method, r.URL.Path)
 
 	if !s.ipAllowed(ip[0]) {
 
@@ -28,33 +33,6 @@ func (s *Server) BaseAuth(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-
-}
-
-//Authenticate developer. Access Token is generated using a shared secret between
-//Hamster and the client. The shared secret is manually configured in hamster.toml.
-//TODO: find a better implementation
-func (s *Server) DeveloperAuth(w http.ResponseWriter, r *http.Request) {
-	access_token := r.Header.Get("X-Access-Token")
-	s.logger.SetPrefix("DeveloperAuth:")
-	if access_token == "" {
-
-		s.unauthorized(r, w, errors.New("token is empty"), "access token invalid")
-		return
-
-	}
-
-	if _, ok := s.validateAccessToken(access_token); !ok {
-		s.unauthorized(r, w, errors.New("token is old"), "access token invalid")
-		return
-
-	}
-}
-
-//Authenticates object level requests
-func (s *Server) ObjectAuth(w http.ResponseWriter, r *http.Request) {
-
-	//TODO: implement this!!!
 
 }
 
@@ -66,6 +44,173 @@ func (s *Server) ipAllowed(ip string) bool {
 		}
 	}
 	return false
+}
+
+//Authenticate developer. Access Token is generated using a shared secret between
+//Hamster and the client. The shared secret is manually configured in hamster.toml.
+//TODO: find a better implementation
+func (s *Server) developerAuth(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("DeveloperAuth:")
+	access_token := r.Header.Get("X-Access-Token")
+
+	if access_token == "" {
+
+		s.unauthorized(r, w, errors.New("token is empty"), "access token invalid")
+		return
+
+	}
+
+	//check POST /api/v1/developers
+	if r.Method == "POST" && r.URL.Path == "/api/v1/developers/" {
+
+		//check auth
+		if !s.validateSharedToken(access_token) {
+			s.unauthorized(r, w, errors.New("shared token is old"), "access token invalid")
+		}
+		return
+	}
+
+	if _, ok := s.validateAccessLoginToken(access_token); !ok {
+		s.unauthorized(r, w, errors.New("token is old"), "access token invalid")
+		return
+
+	}
+}
+
+//Validate access token
+func (s *Server) validateAccessLoginToken(token string) (string, bool) {
+
+	btok, err := base64.URLEncoding.DecodeString(token)
+
+	if err != nil {
+		return "", false
+
+	}
+	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
+	email := fernet.VerifyAndDecrypt(btok, 60*time.Second, k)
+
+	c := s.redisConn()
+	defer c.Close()
+
+	status, err := redis.String(c.Do("GET", email))
+	if err != nil {
+		return "", false
+	}
+
+	if status == "loggedin" {
+		return string(email), true
+	} else {
+		return "", false
+	}
+
+}
+
+//Validate access token
+func (s *Server) validateSharedToken(token string) bool {
+
+	btok, err := base64.URLEncoding.DecodeString(token)
+
+	if err != nil {
+		return false
+
+	}
+	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
+	shared_token := fernet.VerifyAndDecrypt(btok, 60*time.Second, k)
+	if string(shared_token) == string(s.config.Clients["browser"].Token) {
+		return true
+	} else {
+		return false
+	}
+
+}
+
+//Authenticates object level requests
+func (s *Server) objectAuth(w http.ResponseWriter, r *http.Request) {
+	s.logger.SetPrefix("ObjectAuth:")
+	api_token := r.Header.Get("X-Api-Token")
+	api_secret := r.Header.Get("X-Api-Secret")
+
+	if api_token == "" || api_secret == "" {
+		s.unauthorized(r, w, errors.New("token or secret invalid"), "access token invalid")
+		return
+	}
+
+	if !s.validateApiToken(api_token, api_secret) {
+		s.unauthorized(r, w, errors.New("token match failed"), "access token failed")
+		return
+	}
+
+}
+
+func (s *Server) validateApiToken(token string, secret string) bool {
+
+	if ok, hash, salt := s.getHashSalt(token); ok {
+		fmt.Println("found key in redis")
+		if matchPassword(decodeToken(secret), hash, salt) {
+			return true
+		} else {
+			return false
+		}
+
+	} else {
+
+		if ok, hash, salt := s.getHashSaltFromDb(token); ok {
+			if matchPassword(decodeToken(secret), hash, salt) {
+
+				return true
+			} else {
+				fmt.Println("api secret match failed!")
+				return false
+			}
+
+		} else {
+			return false
+		}
+
+	}
+
+}
+
+func (s *Server) getHashSalt(token string) (bool, string, string) {
+	c := s.redisConn()
+	defer c.Close()
+
+	hash, err := redis.String(c.Do("GET", token+":hash"))
+	if err != nil {
+		return false, "", ""
+	}
+	salt, err := redis.String(c.Do("GET", token+":salt"))
+	if err != nil {
+		return false, "", ""
+	}
+
+	return true, hash, salt
+}
+
+func (s *Server) getHashSaltFromDb(token string) (bool, string, string) {
+	//get collection
+
+	app_id := decodeToken(token)
+	session := s.db.GetSession()
+	defer session.Close()
+	c := session.DB("").C(aName)
+
+	app := App{}
+	//TODO:select fields
+	if err := c.FindId(bson.ObjectIdHex(app_id)).One(&app); err != nil {
+		fmt.Println("app not found\n")
+		return false, "", ""
+	}
+
+	//cache hash-salt in redis
+	rc := s.redisConn()
+	defer rc.Close()
+
+	rc.Do("SET", token+":hash", app.Hash)
+	rc.Do("SET", token+":salt", app.Salt)
+
+	return true, app.Hash, app.Salt
+
 }
 
 //Get Basic user password
@@ -106,11 +251,11 @@ func (h *Hmac) generateHash(data []byte) []byte {
 }
 
 /*Encrypts the password and returns password hash*/
-func (h *Hmac) Encrypt(password []byte, cost int) ([]byte, error) {
+func (h *Hmac) encrypt(password []byte, cost int) ([]byte, error) {
 	return bcrypt.GenerateFromPassword(h.generateHash(password), cost)
 }
 
-func (h *Hmac) Compare(hash, password []byte) error {
+func (h *Hmac) compare(hash, password []byte) error {
 	return bcrypt.CompareHashAndPassword(hash, h.generateHash(password))
 }
 
@@ -133,7 +278,7 @@ func encryptPassword(password string) (string, string, error) {
 
 	hm := New(sha512.New, []byte(salt))
 	pass := []byte(password)
-	encrypted, err := hm.Encrypt(pass, bcrypt.DefaultCost)
+	encrypted, err := hm.encrypt(pass, bcrypt.DefaultCost)
 
 	if err != nil {
 
@@ -149,7 +294,7 @@ func matchPassword(password string, hash string, salt string) bool {
 	h := []byte(hash)
 	s := []byte(salt)
 	hm := New(sha512.New, s)
-	err := hm.Compare(h, p)
+	err := hm.compare(h, p)
 	if err != nil {
 		return false
 	} else {
@@ -229,34 +374,6 @@ func (s *Server) genAccessToken(email string) (string, error) {
 	c.Do("SET", email, "loggedin")
 
 	return token, nil
-
-}
-
-//Validate access token
-func (s *Server) validateAccessToken(token string) (string, bool) {
-
-	btok, err := base64.URLEncoding.DecodeString(token)
-
-	if err != nil {
-		return "", false
-
-	}
-	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
-	email := fernet.VerifyAndDecrypt(btok, 60*5*time.Second, k)
-
-	c := s.redisConn()
-	defer c.Close()
-
-	status, err := redis.String(c.Do("GET", email))
-	if err != nil {
-		return "", false
-	}
-
-	if status == "loggedin" {
-		return string(email), true
-	} else {
-		return "", false
-	}
 
 }
 
