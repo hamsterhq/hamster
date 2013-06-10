@@ -39,7 +39,7 @@ type Server struct {
 //dbUrl:"mongodb://adnaan:pass@localhost:27017/hamster"
 //serverUrl:fmt.Sprintf("%s:%d", address, port)
 //creates a new server, setups logging etc.
-func NewServer(port int, dbUrl string) *Server {
+func NewServer() *Server {
 	f, err := os.OpenFile("hamster.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("hamster.log faied to open")

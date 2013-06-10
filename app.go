@@ -67,7 +67,7 @@ func (s *Server) CreateApp(w http.ResponseWriter, r *http.Request) {
 	app.Created = time.Now()
 	app.Updated = time.Now()
 	app.ApiToken = encodeBase64Token(app.Id.Hex())
-	secret, err := GenUUID(16)
+	secret, err := genUUID(16)
 	if err != nil {
 		s.internalError(r, w, err, "gen uuid")
 		return

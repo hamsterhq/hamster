@@ -36,7 +36,7 @@ func (s *Server) BaseAuth(w http.ResponseWriter, r *http.Request) {
 //TODO: find a better implementation
 func (s *Server) DeveloperAuth(w http.ResponseWriter, r *http.Request) {
 	access_token := r.Header.Get("X-Access-Token")
-
+	s.logger.SetPrefix("DeveloperAuth:")
 	if access_token == "" {
 
 		s.unauthorized(r, w, errors.New("token is empty"), "access token invalid")
@@ -126,7 +126,7 @@ func New(hash func() hash.Hash, salt []byte) *Hmac {
 /*Encrypts password. Returns hash+salt*/
 func encryptPassword(password string) (string, string, error) {
 
-	salt, err0 := GenUUID(16)
+	salt, err0 := genUUID(16)
 	if err0 != nil {
 		return "", "", err0
 	}
@@ -183,7 +183,7 @@ func decodeToken(token string) string {
 }
 
 /*Generate uuid*/
-func GenUUID(size int) (string, error) {
+func genUUID(size int) (string, error) {
 	uuid := make([]byte, size)
 	n, err := rand.Read(uuid)
 	if n != len(uuid) || err != nil {

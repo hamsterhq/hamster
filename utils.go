@@ -63,7 +63,7 @@ func testHttp(verb string, resource string, header map[string]string) (*http.Res
 
 func testServer(f func(s *Server)) {
 
-	server := NewServer(port, mongoHost)
+	server := NewServer()
 	//server.Quiet()
 	server.ListenAndServe()
 	defer server.Shutdown()

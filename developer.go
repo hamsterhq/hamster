@@ -6,6 +6,7 @@ import (
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"net/http"
+
 	"time"
 )
 
@@ -59,7 +60,6 @@ func (s *Server) IndexDevelopers() {
 //POST: /api/v1/developers/ handler
 func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateDev: ")
-
 	//get the request body
 	developer := &Developer{}
 
