@@ -167,7 +167,7 @@ func TestLoginOK(t *testing.T) {
 		userpass := base64.StdEncoding.EncodeToString([]byte("badr.adnaan@gmail.com:mypassword"))
 		headers["Authorization"] = "Basic " + userpass
 
-		headers["X-Access-Token"] = access_token
+		//headers["X-Access-Token"] = access_token
 		//make request
 		client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
 		r, _ := http.NewRequest("POST", fmt.Sprintf("%s%s", host, "/api/v1/developers/login/"), nil)

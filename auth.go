@@ -9,7 +9,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
-	"fmt"
+	//"fmt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/kr/fernet"
 	"hash"
@@ -51,6 +51,13 @@ func (s *Server) ipAllowed(ip string) bool {
 //TODO: find a better implementation
 func (s *Server) developerAuth(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("DeveloperAuth:")
+
+	//skip access token check if logging in
+	if r.Method == "POST" && r.URL.Path == "/api/v1/developers/login/" {
+
+		return
+	}
+
 	access_token := r.Header.Get("X-Access-Token")
 
 	if access_token == "" {
@@ -115,7 +122,7 @@ func (s *Server) validateSharedToken(token string) bool {
 
 	}
 	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
-	shared_token := fernet.VerifyAndDecrypt(btok, 60*time.Second, k)
+	shared_token := fernet.VerifyAndDecrypt(btok, 60*10*time.Second, k)
 	if string(shared_token) == string(s.config.Clients["browser"].Token) {
 		return true
 	} else {
@@ -145,7 +152,7 @@ func (s *Server) objectAuth(w http.ResponseWriter, r *http.Request) {
 func (s *Server) validateApiToken(token string, secret string) bool {
 
 	if ok, hash, salt := s.getHashSalt(token); ok {
-		fmt.Println("found key in redis")
+		//fmt.Println("found key in redis")
 		if matchPassword(decodeToken(secret), hash, salt) {
 			return true
 		} else {
@@ -159,7 +166,7 @@ func (s *Server) validateApiToken(token string, secret string) bool {
 
 				return true
 			} else {
-				fmt.Println("api secret match failed!")
+				//fmt.Println("api secret match failed!")
 				return false
 			}
 
@@ -198,7 +205,7 @@ func (s *Server) getHashSaltFromDb(token string) (bool, string, string) {
 	app := App{}
 	//TODO:select fields
 	if err := c.FindId(bson.ObjectIdHex(app_id)).One(&app); err != nil {
-		fmt.Println("app not found\n")
+		//fmt.Println("app not found\n")
 		return false, "", ""
 	}
 
