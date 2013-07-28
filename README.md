@@ -37,10 +37,6 @@ As far as I know there are not many modern open source BAAS solutions out there.
 Go provides an oppurtunity to build something simple, stable, fast and scalable. In any case, it always good to have a free and open source
 project at our hands.
 
-**What is the future of this project?**
-
-
-I am building my start-up's backend around Hamster, so it's going to be actively developed. 
 
 **Features Implemented:**
 
@@ -63,13 +59,3 @@ Please go through `hamster_test.go`. I will try to get to documentation soon.
 8. Analytics.
 
 
-**Contributions**
-
-
-Not accepting pull requests right now due to the unstable code, but code reviews, feature requests and issues are most welcome. The pull
-request freeze is expected to be around for another four weeks. Sorry about that!
-
-**Why is Licence Missing?**
-
-Hamster is going to be free and open source. Still figuring out the right licencse. I want to keep it open source 
-and free but maybe sell a commercial support or provide cloud hosting services. Advice on this is most welcome.
