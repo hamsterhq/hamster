@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Syrian_hamster_filling_his_cheek_pouches_with_Dandelion_leaves.JPG/320px-Syrian_hamster_filling_his_cheek_pouches_with_Dandelion_leaves.JPG" alt="Hamster Wikimedia Image"/>
+</p>
+
 **Hamster** is a simplistic parse.com like backend as a service(BaaS).It provides a REST interface to datastores for CRUD operations plus some helper services.
 
 A proper documentation will be released when the code is more stable. Code is well commented with feature complete test coverage.
