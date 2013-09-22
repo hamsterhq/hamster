@@ -63,3 +63,4 @@ Please go through `hamster_test.go`. I will try to get to documentation soon.
 8. Analytics.
 
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/adnaan/hamster/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
