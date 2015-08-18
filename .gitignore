@@ -20,5 +20,9 @@ _cgo_export.*
 _testmain.go
 
 *.exe
-conf/app.conf
-*.log
+*.test
+
+hamster.log
+hamster
+stoprm
+download.png
