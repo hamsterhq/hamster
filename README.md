@@ -2,24 +2,33 @@
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Syrian_hamster_filling_his_cheek_pouches_with_Dandelion_leaves.JPG/320px-Syrian_hamster_filling_his_cheek_pouches_with_Dandelion_leaves.JPG" alt="Hamster Wikimedia Image"/>
 </p>
 
-**Update:** Migrating to https://github.com/hamsterhq. The new organisation also has the android client code with an upcoming example app. 
-
-**Hamster** is a simplistic parse.com like backend as a service(BaaS).It provides a REST interface to datastores for CRUD operations plus some helper services.
+**Hamster** is a simplistic backend as a service(BaaS).It provides a REST interface to datastores for CRUD operations plus some helper services.
 
 A proper documentation will be released when the code is more stable. Code is well commented with feature complete test coverage.
 
 >*"Writing test code is better than writing documentation"* - Lazy and Procastinating Anonymous Guy.
 
-See: `hamster_test.go` & do `go test`
 
-Auto-Generated godoc: [http://godoc.org/github.com/adnaan/hamster](http://godoc.org/github.com/adnaan/hamster)
+Auto-Generated godoc: [http://godoc.org/github.com/hamsterhq/hamster/core](http://godoc.org/github.com/hamsterhq/hamster/core)
 
-**Dependencies**
+**Installation**
+
+$ go get github.com/hamsterhq/hamster
+
+**Getting started with docker-compose**
+
+$ docker-compose run api go test -v
+
+$ docker-compose up
+
+**Without docker-compose**
 
 1. Mongodb: default port.
 2. Redis: default port.
 
-Check hamster.toml to change mongodb host string with your own username:password.
+$ SERVER_PORT=8181 MONGODB_URL=mongodb://127.0.0.1:27017/hamster REDIS_URL=127.0.0.1:6379 go test -v
+
+$ SERVER_PORT=8181 MONGODB_URL=mongodb://127.0.0.1:27017/hamster REDIS_URL=127.0.0.1:6379 go run main.go
 
 
 **Why Mongodb?**
@@ -64,6 +73,5 @@ Please go through `hamster_test.go`. I will try to get to documentation soon.
 7. Dashboard
 8. Analytics.
 
-[![Gitter chat](https://badges.gitter.im/adnaan/hamster.png)](https://gitter.im/adnaan/hamster)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/adnaan/hamster/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

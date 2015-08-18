@@ -1,45 +1,44 @@
-/*Utility functions and methods for authoriztion*/
-package hamster
+package core
 
 import (
-	"code.google.com/p/go.crypto/bcrypt"
 	"crypto/hmac"
 	"crypto/rand"
 	"crypto/sha512"
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
-	//"fmt"
-	"github.com/garyburd/redigo/redis"
-	"github.com/kr/fernet"
 	"hash"
-	"labix.org/v2/mgo/bson"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
+
+	"code.google.com/p/go.crypto/bcrypt"
+	"github.com/garyburd/redigo/redis"
+	"github.com/kr/fernet"
+	"labix.org/v2/mgo/bson"
 )
 
 //Allow only verified ip's from config
 func (s *Server) baseAuth(w http.ResponseWriter, r *http.Request) {
-	ip := strings.Split(r.RemoteAddr, ":")
+	//ip := strings.Split(r.RemoteAddr, ":")
+	//fmt.Println(r.RemoteAddr)
+	//s.logger.SetPrefix("BaseAuth:")
+	//s.logger.Printf("%v  %v", r.Method, r.URL.Path)
 
-	s.logger.SetPrefix("BaseAuth:")
-	s.logger.Printf("%v  %v", r.Method, r.URL.Path)
-
-	if !s.ipAllowed(ip[0]) {
-
-		http.Error(w, "Unauthorized:ip not allowed", http.StatusUnauthorized)
-		return
-
-	}
+	//TODO:IPV6 local loop back address resolves to ::1. Find a better solution
+	// if !s.ipAllowed(ip[0]) {
+	// 	http.Error(w, fmt.Sprintf("Unauthorized ip:%s not allowed", ip[0]), http.StatusUnauthorized)
+	// 	return
+	//
+	// }
 
 }
 
 //Allow ip
-func (s *Server) ipAllowed(ip string) bool {
+func (s *Server) ipAllowed(IP string) bool {
 	for _, client := range s.config.Clients {
-		if ip == client.Ip {
+		if IP == client.IP {
 			return true
 		}
 	}
@@ -58,9 +57,9 @@ func (s *Server) developerAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	access_token := r.Header.Get("X-Access-Token")
+	accessToken := r.Header.Get("X-Access-Token")
 
-	if access_token == "" {
+	if accessToken == "" {
 
 		s.unauthorized(r, w, errors.New("token is empty"), "access token invalid")
 		return
@@ -71,13 +70,13 @@ func (s *Server) developerAuth(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" && r.URL.Path == "/api/v1/developers/" {
 
 		//check auth
-		if !s.validateSharedToken(access_token) {
+		if !s.validateSharedToken(accessToken) {
 			s.unauthorized(r, w, errors.New("shared token is old"), "access token invalid")
 		}
 		return
 	}
 
-	if _, ok := s.validateAccessLoginToken(access_token); !ok {
+	if _, ok := s.validateAccessLoginToken(accessToken); !ok {
 		s.unauthorized(r, w, errors.New("token is old"), "access token invalid")
 		return
 
@@ -106,10 +105,9 @@ func (s *Server) validateAccessLoginToken(token string) (string, bool) {
 
 	if status == "loggedin" {
 		return string(email), true
-	} else {
-		return "", false
 	}
 
+	return "", false
 }
 
 //Validate access token
@@ -122,60 +120,47 @@ func (s *Server) validateSharedToken(token string) bool {
 
 	}
 	k := fernet.MustDecodeKeys(s.config.Clients["browser"].Secret)
-	shared_token := fernet.VerifyAndDecrypt(btok, 60*10*time.Second, k)
-	if string(shared_token) == string(s.config.Clients["browser"].Token) {
+	sharedToken := fernet.VerifyAndDecrypt(btok, 60*10*time.Second, k)
+	if string(sharedToken) == string(s.config.Clients["browser"].Token) {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 
 }
 
 //Authenticates object level requests
 func (s *Server) objectAuth(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("ObjectAuth:")
-	api_token := r.Header.Get("X-Api-Token")
-	api_secret := r.Header.Get("X-Api-Secret")
+	apiToken := r.Header.Get("X-Api-Token")
+	apiSecret := r.Header.Get("X-Api-Secret")
 
-	if api_token == "" || api_secret == "" {
+	if apiToken == "" || apiSecret == "" {
 		s.unauthorized(r, w, errors.New("token or secret invalid"), "access token invalid")
 		return
 	}
 
-	if !s.validateApiToken(api_token, api_secret) {
+	if !s.validateAPIToken(apiToken, apiSecret) {
 		s.unauthorized(r, w, errors.New("token match failed"), "access token failed")
 		return
 	}
 
 }
 
-func (s *Server) validateApiToken(token string, secret string) bool {
+func (s *Server) validateAPIToken(token string, secret string) bool {
 
 	if ok, hash, salt := s.getHashSalt(token); ok {
 		//fmt.Println("found key in redis")
 		if matchPassword(decodeToken(secret), hash, salt) {
 			return true
-		} else {
-			return false
 		}
-
-	} else {
-
-		if ok, hash, salt := s.getHashSaltFromDb(token); ok {
-			if matchPassword(decodeToken(secret), hash, salt) {
-
-				return true
-			} else {
-				//fmt.Println("api secret match failed!")
-				return false
-			}
-
-		} else {
-			return false
-		}
-
 	}
-
+	if ok, hash, salt := s.getHashSaltFromDB(token); ok {
+		if matchPassword(decodeToken(secret), hash, salt) {
+			return true
+		}
+	}
+	return false
 }
 
 func (s *Server) getHashSalt(token string) (bool, string, string) {
@@ -194,17 +179,17 @@ func (s *Server) getHashSalt(token string) (bool, string, string) {
 	return true, hash, salt
 }
 
-func (s *Server) getHashSaltFromDb(token string) (bool, string, string) {
+func (s *Server) getHashSaltFromDB(token string) (bool, string, string) {
 	//get collection
 
-	app_id := decodeToken(token)
+	appID := decodeToken(token)
 	session := s.db.GetSession()
 	defer session.Close()
 	c := session.DB("").C(aName)
 
-	app := App{}
+	app := app{}
 	//TODO:select fields
-	if err := c.FindId(bson.ObjectIdHex(app_id)).One(&app); err != nil {
+	if err := c.FindId(bson.ObjectIdHex(appID)).One(&app); err != nil {
 		//fmt.Println("app not found\n")
 		return false, "", ""
 	}
@@ -241,13 +226,13 @@ func getUserPassword(r *http.Request) (string, string) {
 
 }
 
-type Hmac struct {
+type hmacFactory struct {
 	hashFunc hash.Hash
 	m        sync.Mutex
 }
 
 /*Generates hash*/
-func (h *Hmac) generateHash(data []byte) []byte {
+func (h *hmacFactory) generateHash(data []byte) []byte {
 	h.m.Lock()
 	defer h.m.Unlock()
 
@@ -258,17 +243,17 @@ func (h *Hmac) generateHash(data []byte) []byte {
 }
 
 /*Encrypts the password and returns password hash*/
-func (h *Hmac) encrypt(password []byte, cost int) ([]byte, error) {
+func (h *hmacFactory) encrypt(password []byte, cost int) ([]byte, error) {
 	return bcrypt.GenerateFromPassword(h.generateHash(password), cost)
 }
 
-func (h *Hmac) compare(hash, password []byte) error {
+func (h *hmacFactory) compare(hash, password []byte) error {
 	return bcrypt.CompareHashAndPassword(hash, h.generateHash(password))
 }
 
 /*Returns a hmac type*/
-func New(hash func() hash.Hash, salt []byte) *Hmac {
-	hm := &Hmac{
+func newHMAC(hash func() hash.Hash, salt []byte) *hmacFactory {
+	hm := &hmacFactory{
 		hashFunc: hmac.New(hash, salt),
 		m:        sync.Mutex{},
 	}
@@ -283,7 +268,7 @@ func encryptPassword(password string) (string, string, error) {
 		return "", "", err0
 	}
 
-	hm := New(sha512.New, []byte(salt))
+	hm := newHMAC(sha512.New, []byte(salt))
 	pass := []byte(password)
 	encrypted, err := hm.encrypt(pass, bcrypt.DefaultCost)
 
@@ -300,15 +285,12 @@ func matchPassword(password string, hash string, salt string) bool {
 	p := []byte(password)
 	h := []byte(hash)
 	s := []byte(salt)
-	hm := New(sha512.New, s)
+	hm := newHMAC(sha512.New, s)
 	err := hm.compare(h, p)
 	if err != nil {
 		return false
-	} else {
-		//matched!
-		return true
 	}
-
+	return true
 }
 
 /*Encode to base64*/

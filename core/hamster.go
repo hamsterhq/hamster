@@ -10,38 +10,40 @@ The Hamster Server. The Server type holds instances of all the components,
 * TODO: Pass hamster.toml as argument to the server
 * TODO: make handler methods local, model method exported for pkg/rpc support
 */
-package hamster
+package core
 
 import (
 	"fmt"
-	"github.com/BurntSushi/toml"
-	"github.com/adnaan/routes"
-	"github.com/garyburd/redigo/redis"
-	"github.com/gorilla/sessions"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"os"
+
+	"github.com/BurntSushi/toml"
+	"github.com/adnaan/routes"
+	"github.com/garyburd/redigo/redis"
+	"github.com/gorilla/sessions"
 )
 
-//The server type holds instances of all components
+//Server The server type holds instances of all components
 type Server struct {
 	listener   net.Listener
 	logger     *log.Logger
 	httpServer *http.Server
 	route      *routes.RouteMux
-	db         *Db
-	config     *Config
+	db         *db
+	config     *config
 	cookie     *sessions.CookieStore //unused
 	redisConn  func() redis.Conn
 }
 
+//NewServer creates a new server
 //dbUrl:"mongodb://adnaan:pass@localhost:27017/hamster"
 //db.addUser( { user: "adnaan",pwd: "pass",roles: [ "readWrite" ] } )
 //serverUrl:fmt.Sprintf("%s:%d", address, port)
 //creates a new server, setups logging etc.
-func NewServer() *Server {
+func NewServer(configPath string) *Server {
 	f, err := os.OpenFile("hamster.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("hamster.log faied to open")
@@ -52,7 +54,7 @@ func NewServer() *Server {
 	//router
 	r := routes.New()
 	//toml config
-	var cfg Config
+	var cfg config
 	if _, err := toml.DecodeFile("hamster.toml", &cfg); err != nil {
 		fmt.Println(err)
 		return nil
@@ -63,7 +65,7 @@ func NewServer() *Server {
 	//redis
 	var getRedis = func() redis.Conn {
 
-		c, err := redis.Dial("tcp", ":6379")
+		c, err := redis.Dial("tcp", os.Getenv("REDIS_URL"))
 		if err != nil {
 			panic(err)
 		}
@@ -74,10 +76,10 @@ func NewServer() *Server {
 
 	//initialize server
 	s := &Server{
-		httpServer: &http.Server{Addr: fmt.Sprintf(":%d", cfg.Servers["local"].Port), Handler: r},
+		httpServer: &http.Server{Addr: ":" + os.Getenv("SERVER_PORT"), Handler: r},
 		route:      r,
 		logger:     log.New(f, "", log.LstdFlags),
-		db:         &Db{Url: cfg.DB["mongo"].Host},
+		db:         &db{URL: os.Getenv("MONGODB_URL")},
 		config:     &cfg,
 		cookie:     ck,
 		redisConn:  getRedis,
@@ -90,8 +92,7 @@ func NewServer() *Server {
 
 }
 
-//listen and serve a fastcgi server
-
+//ListenAndServe: listen and serve a fastcgi server
 func (s *Server) ListenAndServe() error {
 
 	listener, err := net.Listen("tcp", s.httpServer.Addr)
@@ -103,17 +104,17 @@ func (s *Server) ListenAndServe() error {
 
 	go s.httpServer.Serve(s.listener)
 
-	s.logger.Print("********Server Startup*********\n")
-	s.logger.Print("********++++++++++++++*********\n")
-	s.logger.Printf("hamster is now listening on http://localhost%s\n", s.httpServer.Addr)
+	//s.logger.Print("********Server Startup*********\n")
+	//s.logger.Print("********++++++++++++++*********\n")
+	//s.logger.Printf("hamster is now listening on http://localhost%s\n", s.httpServer.Addr)
 
 	//index the collections
-	s.IndexDevelopers()
+	s.indexDevelopers()
 
 	return nil
 }
 
-// stops the server.
+// Shutdown the server.
 func (s *Server) Shutdown() error {
 
 	if s.listener != nil {
@@ -128,7 +129,7 @@ func (s *Server) Shutdown() error {
 	return nil
 }
 
-// no log
+// Quiet down the log
 func (s *Server) Quiet() {
 	s.logger = log.New(ioutil.Discard, "", log.LstdFlags)
 }

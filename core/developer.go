@@ -1,13 +1,12 @@
-/*Manage Developer*/
-package hamster
+package core
 
 import (
 	"fmt"
 	"net/http"
+	"time"
+
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
-
-	"time"
 )
 
 var (
@@ -15,9 +14,9 @@ var (
 )
 
 //Stores developer account info
-type Developer struct {
-	Id       bson.ObjectId `bson:"_id" json:"id"`
-	ParentId string        `bson:"parentId" json:"parentId"` //unused. change string to bson.ObjectId
+type developer struct {
+	ID       bson.ObjectId `bson:"_id" json:"id"`
+	ParentID string        `bson:"parentId" json:"parentId"` //unused. change string to bson.ObjectId
 	Name     string        `bson:"name" json:"name"`
 	Email    string        `bson:"email" json:"email"`
 	Verified bool          `bson:"verified" json:"verified"`
@@ -26,11 +25,11 @@ type Developer struct {
 	Salt     string        `bson:"salt"`
 	Created  time.Time     `bson:"created" json:"created"`
 	Updated  time.Time     `bson:"updated" json:"updated"`
-	UrlToken string        `bson:"urltoken" json:"urltoken"`
+	URLToken string        `bson:"urltoken" json:"urltoken"`
 }
 
 //pre-index developers collection on startup. probably should do it through command line?
-func (s *Server) IndexDevelopers() {
+func (s *Server) indexDevelopers() {
 	s.logger.SetPrefix("IndexDev: ")
 	//ensure email exists and is unique
 	index := mgo.Index{
@@ -51,19 +50,17 @@ func (s *Server) IndexDevelopers() {
 	if err := c.EnsureIndex(index); err != nil {
 
 		s.logger.Printf("failed indexing developers, err: %v \n", err)
-	} else {
-		s.logger.Printf("developers collection indexed!\n")
 	}
 
 }
 
 //POST: /api/v1/developers/ handler
-func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
+func (s *Server) createDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("CreateDev: ")
 	//get the request body
-	developer := &Developer{}
+	developer := &developer{}
 
-	if err := s.readJson(developer, r, w); err != nil {
+	if err := s.readJSON(developer, r, w); err != nil {
 		s.badRequest(r, w, err, "malformed developer json")
 		return
 
@@ -81,8 +78,8 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("").C(dName)
 
 	//set fields
-	developer.Id = bson.NewObjectId() //todo:make it shorter and user friendly
-	developer.UrlToken = encodeBase64Token(developer.Id.Hex())
+	developer.ID = bson.NewObjectId() //todo:make it shorter and user friendly
+	developer.URLToken = encodeBase64Token(developer.ID.Hex())
 	//encrypt password
 	hash, salt, err := encryptPassword(developer.Password)
 	if err != nil {
@@ -97,19 +94,19 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 
 	//insert new document
 
-	if insert_err := c.Insert(developer); insert_err != nil {
+	if insertErr := c.Insert(developer); insertErr != nil {
 
-		s.internalError(r, w, insert_err, "error inserting: "+fmt.Sprintf("%v", developer))
+		s.internalError(r, w, insertErr, "error inserting: "+fmt.Sprintf("%v", developer))
 
 	} else {
-		s.logger.Printf("created new developer: %+v, id: %v\n", developer)
+		s.logger.Printf("created new developer: %+v", developer)
 		//serve created developer json
-		access_token, err := s.genAccessToken(developer.Email)
+		accessToken, err := s.genAccessToken(developer.Email)
 		if err != nil {
 			s.internalError(r, w, err, "error generating access token")
 		}
-		response := NewDeveloperResponse{ObjectId: developer.UrlToken, AccessToken: access_token}
-		s.serveJson(w, &response)
+		response := NewDeveloperResponse{ObjectID: developer.URLToken, AccessToken: accessToken}
+		s.serveJSON(w, &response)
 	}
 
 	return
@@ -117,7 +114,7 @@ func (s *Server) CreateDev(w http.ResponseWriter, r *http.Request) {
 }
 
 //POST: /api/v1/developers/login/ handler
-func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
+func (s *Server) loginDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("LoginDev: ")
 
 	//get email password from request
@@ -128,7 +125,7 @@ func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
 	defer session.Close()
 	c := session.DB("").C(dName)
 
-	developer := Developer{}
+	developer := developer{}
 
 	//find and login developer
 	s.logger.Printf("find developer: %s %s", email, password)
@@ -139,13 +136,13 @@ func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
 		}
 		//match password and set session
 		if matchPassword(password, developer.Hash, developer.Salt) {
-			access_token, err := s.genAccessToken(developer.Email)
+			accessToken, err := s.genAccessToken(developer.Email)
 			if err != nil {
 				s.internalError(r, w, err, email+" generate access token")
 			}
 			//respond with developer profile
-			response := LoginResponse{ObjectId: developer.UrlToken, AccessToken: access_token, Status: "ok"}
-			s.serveJson(w, &response)
+			response := loginResponse{ObjectID: developer.URLToken, AccessToken: accessToken, Status: "ok"}
+			s.serveJSON(w, &response)
 
 		} else {
 
@@ -159,34 +156,34 @@ func (s *Server) LoginDev(w http.ResponseWriter, r *http.Request) {
 }
 
 //POST:/api/v1/developers/logout/ handler
-func (s *Server) LogoutDev(w http.ResponseWriter, r *http.Request) {
+func (s *Server) logoutDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("LogoutDev: ")
 
 	//parse body
-	logoutRequest := &LogoutRequest{}
+	logoutRequest := &logoutRequest{}
 
-	if err := s.readJson(logoutRequest, r, w); err != nil {
+	if err := s.readJSON(logoutRequest, r, w); err != nil {
 		s.badRequest(r, w, err, "malformed logout request")
 		return
 	}
 
 	//logout
-	if logout_err := s.logout(logoutRequest.Email); logout_err != nil {
-		s.internalError(r, w, logout_err, logoutRequest.Email+" : could not logout")
+	if logoutErr := s.logout(logoutRequest.Email); logoutErr != nil {
+		s.internalError(r, w, logoutErr, logoutRequest.Email+" : could not logout")
 	}
 
 	//response
-	response := LogoutResponse{Status: "ok"}
-	s.serveJson(w, &response)
+	response := logoutResponse{Status: "ok"}
+	s.serveJSON(w, &response)
 
 }
 
-//GET:/api/v1/developers/:objectId handler
-func (s *Server) QueryDev(w http.ResponseWriter, r *http.Request) {
+//GET:/api/v1/developers/:objectID handler
+func (s *Server) queryDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("QueryDev: ")
 
 	//getObjectId
-	object_id := s.getObjectId(w, r)
+	objectID := s.getObjectID(w, r)
 
 	//get collection
 	session := s.db.GetSession()
@@ -194,29 +191,29 @@ func (s *Server) QueryDev(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("").C(dName)
 
 	//find and serve data
-	developer := Developer{}
-	if err := c.FindId(bson.ObjectIdHex(object_id)).Limit(1).One(&developer); err != nil {
-		s.notFound(r, w, err, object_id+" : id not found")
+	developer := developer{}
+	if err := c.FindId(bson.ObjectIdHex(objectID)).Limit(1).One(&developer); err != nil {
+		s.notFound(r, w, err, objectID+" : id not found")
 		return
 	}
 
 	//respond
-	response := QueryDevResponse{Name: developer.Name, Email: developer.Email}
-	s.serveJson(w, &response)
+	response := queryDevResponse{Name: developer.Name, Email: developer.Email}
+	s.serveJSON(w, &response)
 
 }
 
-//PUT:/api/v1/developers/:objectId handler
-func (s *Server) UpdateDev(w http.ResponseWriter, r *http.Request) {
+//PUT:/api/v1/developers/:objectID handler
+func (s *Server) updateDev(w http.ResponseWriter, r *http.Request) {
 
 	s.logger.SetPrefix("UpdateDev: ")
 
 	//getObjectId
-	object_id := s.getObjectId(w, r)
+	objectID := s.getObjectID(w, r)
 
 	//parse body
-	updateRequest := &UpdateRequest{}
-	if err := s.readJson(updateRequest, r, w); err != nil {
+	updateRequest := &updateRequest{}
+	if err := s.readJSON(updateRequest, r, w); err != nil {
 		s.badRequest(r, w, err, "malformed update request body")
 		return
 	}
@@ -236,24 +233,24 @@ func (s *Server) UpdateDev(w http.ResponseWriter, r *http.Request) {
 			}}}
 
 	//find and update
-	developer := Developer{}
-	if _, err := c.FindId(bson.ObjectIdHex(object_id)).Apply(change, &developer); err != nil {
-		s.notFound(r, w, err, object_id+" : id not found")
+	developer := developer{}
+	if _, err := c.FindId(bson.ObjectIdHex(objectID)).Apply(change, &developer); err != nil {
+		s.notFound(r, w, err, objectID+" : id not found")
 		return
 	}
 
 	//respond
-	response := QueryDevResponse{Name: developer.Name, Email: developer.Email}
-	s.serveJson(w, &response)
+	response := queryDevResponse{Name: developer.Name, Email: developer.Email}
+	s.serveJSON(w, &response)
 
 }
 
-//DELETE:/api/v1/developers/:objectId
-func (s *Server) DeleteDev(w http.ResponseWriter, r *http.Request) {
+//DELETE:/api/v1/developers/:objectID
+func (s *Server) deleteDev(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("DeleteDev: ")
 
 	//getObjectId
-	object_id := s.getObjectId(w, r)
+	objectID := s.getObjectID(w, r)
 
 	//get collection
 	session := s.db.GetSession()
@@ -261,14 +258,14 @@ func (s *Server) DeleteDev(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("").C(dName)
 
 	//delete
-	if err := c.RemoveId(bson.ObjectIdHex(object_id)); err != nil {
-		s.notFound(r, w, err, object_id+" : id not found")
+	if err := c.RemoveId(bson.ObjectIdHex(objectID)); err != nil {
+		s.notFound(r, w, err, objectID+" : id not found")
 		return
 	}
 
 	//respond
-	response := DeleteResponse{Status: "ok"}
-	s.serveJson(w, &response)
+	response := deleteResponse{Status: "ok"}
+	s.serveJSON(w, &response)
 
 }
 

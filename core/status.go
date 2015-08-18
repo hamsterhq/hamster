@@ -1,15 +1,14 @@
-/*Error status methods*/
-package hamster
+package core
 
 import (
 	"net/http"
 )
 
-func (s *Server) serveError(w http.ResponseWriter, err error, user_message string, base_message string, status int) {
+func (s *Server) serveError(w http.ResponseWriter, err error, userMessage string, baseMessage string, status int) {
 
-	log_message := base_message + " : " + user_message
-	s.logger.Printf("Error %v:  %v \n", log_message, err)
-	http.Error(w, base_message, status)
+	logMessage := baseMessage + " : " + userMessage
+	s.logger.Printf("Error %v:  %v \n", logMessage, err)
+	http.Error(w, baseMessage, status)
 
 }
 func (s *Server) badRequest(r *http.Request, w http.ResponseWriter, err error, msg string) {

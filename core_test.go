@@ -1,14 +1,18 @@
-package hamster
+package main
 
 import (
 	"bufio"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"testing"
+
+	"github.com/hamsterhq/hamster/core"
 	"github.com/kr/fernet"
 )
 
@@ -16,18 +20,70 @@ import (
 *TODO: write more negative tests.
  */
 
-var access_token = ""
-var dev_id = ""
-var api_token = ""
-var api_secret = ""
-var object_id = ""
-var object_name = ""
-var file_id = ""
-var file_name = ""
+var (
+	host        = "http://localhost:" + os.Getenv("SERVER_PORT")
+	contentType = "application/json"
+	accessToken = ""
+	devID       = ""
+	apiToken    = ""
+	apiSecret   = ""
+	objectID    = ""
+	objectName  = ""
+	fileID      = ""
+	fileName    = ""
+)
+
+func testHTTPRequest(verb string, resource string, body string) (*http.Response, error) {
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), strings.NewReader(body))
+	r.Header.Add("Content-Type", contentType)
+	return client.Do(r)
+}
+func testHTTPRequestWithHeaders(verb string, resource string, body string, header map[string]string) (*http.Response, error) {
+
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), strings.NewReader(body))
+	r.Header.Add("Content-Type", contentType)
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
+
+}
+
+func testPostPng(resource string, fileReader io.Reader, header map[string]string) (*http.Response, error) {
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest("POST", fmt.Sprintf("%s%s", host, resource), fileReader)
+	r.Header.Add("Content-Type", "image/png")
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
+}
+
+func testHTTP(verb string, resource string, header map[string]string) (*http.Response, error) {
+	client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
+	r, _ := http.NewRequest(verb, fmt.Sprintf("%s%s", host, resource), nil)
+
+	for key, value := range header {
+		r.Header.Add(key, value)
+	}
+	return client.Do(r)
+
+}
+
+func testServer(f func(s *core.Server)) {
+
+	server := core.NewServer("../hamster.toml")
+	//server.Quiet()
+	server.ListenAndServe()
+	defer server.Shutdown()
+	f(server)
+}
 
 func TestCreateDeveloperHeaderEmpty(t *testing.T) {
-	testServer(func(s *Server) {
-		res, err := testHttpRequest("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
+	testServer(func(s *core.Server) {
+		res, err := testHTTPRequest("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`)
 		if err != nil {
 			t.Fatalf("Unable to create developer: %v", err)
 
@@ -46,10 +102,10 @@ func TestCreateDeveloperHeaderEmpty(t *testing.T) {
 }
 
 func TestCreateDeveloperHeaderNoTime(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		headers := make(map[string]string)
 		headers["X-Access-Token"] = "Z0FBQUFBQlJvMVAtdnNqS1c2dkNNVlRJSjF6Q2x4LW5YaElCRWVvZ00yRE1UaU9nc0huU0hMVUVYRGNoX2ZzUHBQczhZSk9yaTJXOHNpZWl6R21RSmp4SnlPSVJNTDF2TWc9PQ=="
-		res, err := testHttpRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
 		if err != nil {
 			t.Fatalf("Unable to create developer: %v", err)
 
@@ -68,7 +124,7 @@ func TestCreateDeveloperHeaderNoTime(t *testing.T) {
 }
 
 func TestCreateDeveloperHeaderWithTimeOK(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		headers := make(map[string]string)
 		k := fernet.MustDecodeKeys("YI1ZYdopn6usnQ/5gMAHg8+pNh6D0DdaJkytdoLWUj0=")
 		tok, err := fernet.EncryptAndSign([]byte("mysharedtoken"), k[0])
@@ -77,7 +133,7 @@ func TestCreateDeveloperHeaderWithTimeOK(t *testing.T) {
 		}
 		stok := base64.URLEncoding.EncodeToString(tok)
 		headers["X-Access-Token"] = stok
-		res, err := testHttpRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
 		if err != nil {
 			t.Fatalf("Unable to create developer: %v", err)
 
@@ -86,17 +142,17 @@ func TestCreateDeveloperHeaderWithTimeOK(t *testing.T) {
 			body, _ := ioutil.ReadAll(res.Body)
 
 			if res.StatusCode != 200 {
-				t.Fatalf("unable to create developer: %v", string(body))
+				t.Fatalf("Unable to create developer: %v", string(body))
 			}
 
-			response := NewDeveloperResponse{}
+			response := core.NewDeveloperResponse{}
 			err := json.Unmarshal(body, &response)
 			if err != nil {
 				t.Fatalf("fail to parse body: %v", string(body))
 			}
 
-			access_token = response.AccessToken
-			dev_id = response.ObjectId
+			accessToken = response.AccessToken
+			devID = response.ObjectID
 
 		}
 
@@ -105,7 +161,7 @@ func TestCreateDeveloperHeaderWithTimeOK(t *testing.T) {
 }
 
 func TestCreateDeveloperEmailUnique(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		headers := make(map[string]string)
 		k := fernet.MustDecodeKeys("YI1ZYdopn6usnQ/5gMAHg8+pNh6D0DdaJkytdoLWUj0=")
 		tok, err := fernet.EncryptAndSign([]byte("mysharedtoken"), k[0])
@@ -114,7 +170,7 @@ func TestCreateDeveloperEmailUnique(t *testing.T) {
 		}
 		stok := base64.URLEncoding.EncodeToString(tok)
 		headers["X-Access-Token"] = stok
-		res, err := testHttpRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan","email":"badr.adnaan@gmail.com","password":"mypassword"}`, headers)
 		if err != nil {
 			t.Fatalf("email unique failed %v", err)
 
@@ -132,7 +188,7 @@ func TestCreateDeveloperEmailUnique(t *testing.T) {
 }
 
 func TestCreateDeveloperEmailExists(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		headers := make(map[string]string)
 		k := fernet.MustDecodeKeys("YI1ZYdopn6usnQ/5gMAHg8+pNh6D0DdaJkytdoLWUj0=")
 		tok, err := fernet.EncryptAndSign([]byte("mysharedtoken"), k[0])
@@ -142,7 +198,7 @@ func TestCreateDeveloperEmailExists(t *testing.T) {
 		stok := base64.URLEncoding.EncodeToString(tok)
 		headers["X-Access-Token"] = stok
 
-		res, err := testHttpRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", "/api/v1/developers/", `{"name":"adnaan"}`, headers)
 		if err != nil {
 			t.Fatalf("email exists failed %v", err)
 
@@ -160,14 +216,13 @@ func TestCreateDeveloperEmailExists(t *testing.T) {
 }
 
 func TestLoginOK(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
-		host = "http://localhost:8686"
 		headers := make(map[string]string)
 		userpass := base64.StdEncoding.EncodeToString([]byte("badr.adnaan@gmail.com:mypassword"))
 		headers["Authorization"] = "Basic " + userpass
 
-		//headers["X-Access-Token"] = access_token
+		//headers["X-Access-Token"] = accessToken
 		//make request
 		client := &http.Client{Transport: &http.Transport{DisableKeepAlives: true}}
 		r, _ := http.NewRequest("POST", fmt.Sprintf("%s%s", host, "/api/v1/developers/login/"), nil)
@@ -178,7 +233,7 @@ func TestLoginOK(t *testing.T) {
 
 		res, err := client.Do(r)
 
-		//res, err := testHttp("GET", "/api/v1/developers/login/", headers)
+		//res, err := testHTTP("GET", "/api/v1/developers/login/", headers)
 		if err != nil {
 			t.Fatalf("login failed! %v", err)
 
@@ -196,14 +251,14 @@ func TestLoginOK(t *testing.T) {
 
 func TestQueryDeveloperOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/" + dev_id
+		url := "/api/v1/developers/" + devID
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -226,14 +281,14 @@ func TestQueryDeveloperOK(t *testing.T) {
 
 func TestUpdateDeveloperOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/" + dev_id
+		url := "/api/v1/developers/" + devID
 		//make request
-		res, err := testHttpRequestWithHeaders("PUT", url, `{"name":"adnaan badr"}`, headers)
+		res, err := testHTTPRequestWithHeaders("PUT", url, `{"name":"adnaan badr"}`, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -256,14 +311,14 @@ func TestUpdateDeveloperOK(t *testing.T) {
 
 func TestCreateAppOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/" + dev_id + "/apps/"
+		url := "/api/v1/developers/" + devID + "/apps/"
 		//make request
-		res, err := testHttpRequestWithHeaders("POST", url, `{"name":"traverik","os":"android"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", url, `{"name":"traverik","os":"android"}`, headers)
 
 		if err != nil {
 			t.Fatalf("unable to create app: %v , %v", url, err)
@@ -278,17 +333,17 @@ func TestCreateAppOK(t *testing.T) {
 
 			//fmt.Printf("query response: %v ", string(body))
 
-			response := AppResponse{}
+			response := core.AppResponse{}
 			err := json.Unmarshal(body, &response)
 			if err != nil {
 				t.Fatalf("fail to parse body: %v", string(body))
 			}
 
-			api_token = response.ApiToken
-			api_secret = response.ApiSecret
+			apiToken = response.APIToken
+			apiSecret = response.APISecret
 
-			fmt.Printf("api_token: %v\n", api_token)
-			fmt.Printf("api_secret: %v\n", api_secret)
+			fmt.Printf("apiToken: %v\n", apiToken)
+			fmt.Printf("apiSecret: %v\n", apiSecret)
 
 		}
 
@@ -298,14 +353,14 @@ func TestCreateAppOK(t *testing.T) {
 
 func TestQueryAppOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/apps/" + api_token
+		url := "/api/v1/developers/apps/" + apiToken
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -328,14 +383,14 @@ func TestQueryAppOK(t *testing.T) {
 
 func TestQueryAllAppsOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/" + dev_id + "/apps/"
+		url := "/api/v1/developers/" + devID + "/apps/"
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -358,14 +413,14 @@ func TestQueryAllAppsOK(t *testing.T) {
 
 func TestUpdateAppOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/apps/" + api_token
+		url := "/api/v1/developers/apps/" + apiToken
 		//make request
-		res, err := testHttpRequestWithHeaders("PUT", url, `{"name":"traverik alpha","os":"iOS"}`, headers)
+		res, err := testHTTPRequestWithHeaders("PUT", url, `{"name":"traverik alpha","os":"iOS"}`, headers)
 
 		if err != nil {
 			t.Fatalf("unable to update: %v , %v", url, err)
@@ -410,16 +465,16 @@ func getGameScore(score int, name string, t *testing.T) string {
 
 func TestCreateObjectOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test create
 		score := getGameScore(1001, "adnaan", t)
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
 		url := "/api/v1/objects/" + "GameScore"
 		//make request
-		res, err := testHttpRequestWithHeaders("POST", url, string(score), headers)
+		res, err := testHTTPRequestWithHeaders("POST", url, string(score), headers)
 
 		if err != nil {
 			t.Fatalf("unable to create object: %v , %v", url, err)
@@ -439,7 +494,7 @@ func TestCreateObjectOK(t *testing.T) {
 				t.Fatalf("fail to parse body: %v", string(body))
 			}
 
-			object_id = response["object_id"].(string)
+			objectID = response["objectID"].(string)
 
 		}
 
@@ -449,15 +504,15 @@ func TestCreateObjectOK(t *testing.T) {
 
 func TestQueryObjectOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
-		url := "/api/v1/objects/" + "GameScore/" + object_id
+		url := "/api/v1/objects/" + "GameScore/" + objectID
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -511,16 +566,16 @@ func getGameScoreBatch(baseScore int, baseName string, t *testing.T) string {
 
 func TestCreateManyObjectsOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test create
 		scores := getGameScoreBatch(1005, "adnaan", t)
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
 		url := "/api/v1/objects/batch" + "GameScore"
 		//make request
-		res, err := testHttpRequestWithHeaders("POST", url, scores, headers)
+		res, err := testHTTPRequestWithHeaders("POST", url, scores, headers)
 
 		if err != nil {
 			t.Fatalf("unable to create objects: %v , %v", url, err)
@@ -540,7 +595,7 @@ func TestCreateManyObjectsOK(t *testing.T) {
 				t.Fatalf("fail to parse body: %v", string(body))
 			}
 
-			object_id = response["object_id"].(string)*/
+			objectID = response["objectID"].(string)*/
 
 		}
 
@@ -550,15 +605,15 @@ func TestCreateManyObjectsOK(t *testing.T) {
 
 func TestQueryObjectsOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
 		url := "/api/v1/objects/" + "GameScore"
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to query: %v , %v", url, err)
@@ -581,15 +636,15 @@ func TestQueryObjectsOK(t *testing.T) {
 
 func TestUpdateObjectOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
-		url := "/api/v1/objects/" + "GameScore/" + object_id
+		url := "/api/v1/objects/" + "GameScore/" + objectID
 		//make request
-		res, err := testHttpRequestWithHeaders("PUT", url, `{"playerName":"superman"}`, headers)
+		res, err := testHTTPRequestWithHeaders("PUT", url, `{"playerName":"superman"}`, headers)
 
 		if err != nil {
 			t.Fatalf("unable to update: %v , %v", url, err)
@@ -611,11 +666,10 @@ func TestUpdateObjectOK(t *testing.T) {
 }
 
 func TestSaveImageOK(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test create
-		filePath := "docs/"
-		fileName := "gophers.png"
-		file_name = fileName
+		filePath := ""
+		fileName = "gophers.png"
 		file, err := os.Open(filePath + fileName)
 		if err != nil {
 			t.Fatalf("unable to open image: %v", err)
@@ -640,8 +694,8 @@ func TestSaveImageOK(t *testing.T) {
 
 		headers := make(map[string]string)
 
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 		headers["X-Meta-Data"] = string(meta)
 
 		url := "/api/v1/files/" + fileName
@@ -657,17 +711,18 @@ func TestSaveImageOK(t *testing.T) {
 
 			if res.StatusCode != 200 {
 				t.Fatalf("unable to save file: %v , %v", url, string(body))
+				return
 			}
 
 			//fmt.Printf("save file response: %v \n", string(body))
-			var response map[string]interface{}
+			response := core.SaveFileResponse{}
 			err := json.Unmarshal(body, &response)
 			if err != nil {
 				t.Fatalf("fail to parse body: %v", string(body))
 			}
 
-			file_id = response["file_id"].(string)
-			file_name = response["file_name"].(string)
+			fileID = response.FileID
+			fileName = response.FileName
 
 		}
 
@@ -677,15 +732,15 @@ func TestSaveImageOK(t *testing.T) {
 
 func TestGetImageOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
-		url := "/api/v1/files/" + file_name + "/" + file_id
+		url := "/api/v1/files/" + fileName + "/" + fileID
 		//make request
-		res, err := testHttpRequestWithHeaders("GET", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("GET", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to get image: %v , %v", url, err)
@@ -700,7 +755,7 @@ func TestGetImageOK(t *testing.T) {
 
 			//fmt.Printf("object query response: %v \n", string(body))
 			//write file
-			f, err := os.OpenFile("docs/download.png", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
+			f, err := os.OpenFile("download.png", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666)
 			if err != nil {
 				t.Fatalf("unable to open image ")
 
@@ -724,16 +779,16 @@ func TestGetImageOK(t *testing.T) {
 }
 func TestDeleteObjectOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test delete
 		headers := make(map[string]string)
-		headers["X-Api-Token"] = api_token
-		headers["X-Api-Secret"] = api_secret
+		headers["X-Api-Token"] = apiToken
+		headers["X-Api-Secret"] = apiSecret
 
-		url := "/api/v1/objects/" + "GameScore/" + object_id
+		url := "/api/v1/objects/" + "GameScore/" + objectID
 
 		//make request
-		res, err := testHttpRequestWithHeaders("DELETE", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("DELETE", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to delete object: %v , %v", url, err)
@@ -756,15 +811,15 @@ func TestDeleteObjectOK(t *testing.T) {
 
 func TestDeleteAppOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test delete
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/apps/" + api_token
+		url := "/api/v1/developers/apps/" + apiToken
 		//make request
-		res, err := testHttpRequestWithHeaders("DELETE", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("DELETE", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to delete app: %v , %v", url, err)
@@ -787,15 +842,15 @@ func TestDeleteAppOK(t *testing.T) {
 
 func TestDeleteDeveloperOK(t *testing.T) {
 
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 		//test delete
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
-		url := "/api/v1/developers/" + dev_id
+		url := "/api/v1/developers/" + devID
 		//make request
-		res, err := testHttpRequestWithHeaders("DELETE", url, ``, headers)
+		res, err := testHTTPRequestWithHeaders("DELETE", url, ``, headers)
 
 		if err != nil {
 			t.Fatalf("unable to delete: %v , %v", url, err)
@@ -817,13 +872,13 @@ func TestDeleteDeveloperOK(t *testing.T) {
 }
 
 func TestLogoutOK(t *testing.T) {
-	testServer(func(s *Server) {
+	testServer(func(s *core.Server) {
 
 		headers := make(map[string]string)
-		headers["X-Access-Token"] = access_token
+		headers["X-Access-Token"] = accessToken
 
 		//make request
-		res, err := testHttpRequestWithHeaders("POST", "/api/v1/developers/logout/", `{"email":"badr.adnaan@gmail.com"}`, headers)
+		res, err := testHTTPRequestWithHeaders("POST", "/api/v1/developers/logout/", `{"email":"badr.adnaan@gmail.com"}`, headers)
 
 		if err != nil {
 			t.Fatalf("unable to logout: %v", err)

@@ -1,40 +1,33 @@
-/*Save and Get Files. Only .png format supported right now.
-*TODO: save and serve files by content type
- */
-package hamster
+package core
 
 import (
 	"bufio"
 	"bytes"
 	"encoding/json"
-	//"fmt"
 	"image"
 	"image/png"
 	"io"
-	"labix.org/v2/mgo/bson"
 	"net/http"
-)
 
-type File struct {
-	FileName string
-}
+	"labix.org/v2/mgo/bson"
+)
 
 //Saves file read from request body
 //POST:/api/v1/files/:fileName
-func (s *Server) SaveFile(w http.ResponseWriter, r *http.Request) {
+func (s *Server) saveFile(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("SaveFile: ")
 
 	//get file params and file data reader
-	file_name := s.getFileName(w, r)
+	fileName := s.getFileName(w, r)
 	fileReader := bufio.NewReader(r.Body)
 	defer r.Body.Close()
 
 	//get meta data
-	meta_data_json := r.Header.Get("X-Meta-Data")
+	metaDataJSON := r.Header.Get("X-Meta-Data")
 
 	//parse meta data
 	var metadata map[string]interface{}
-	json.Unmarshal([]byte(meta_data_json), &metadata)
+	json.Unmarshal([]byte(metaDataJSON), &metadata)
 
 	//get session
 	session := s.db.GetSession()
@@ -42,7 +35,7 @@ func (s *Server) SaveFile(w http.ResponseWriter, r *http.Request) {
 	db := session.DB("")
 
 	//create file
-	file, err := db.GridFS("fs").Create(file_name)
+	file, err := db.GridFS("fs").Create(fileName)
 	if err != nil {
 		s.internalError(r, w, err, "could not create file")
 	}
@@ -58,8 +51,8 @@ func (s *Server) SaveFile(w http.ResponseWriter, r *http.Request) {
 	file.SetMeta(metadata)
 
 	//encode file id and serve
-	file_id := encodeBase64Token(file.Id().(bson.ObjectId).Hex())
-	response := SaveFileResponse{FileId: file_id, FileName: file.Name()}
+	fileID := encodeBase64Token(file.Id().(bson.ObjectId).Hex())
+	response := SaveFileResponse{FileID: fileID, FileName: file.Name()}
 
 	err = file.Close()
 	if err != nil {
@@ -68,17 +61,17 @@ func (s *Server) SaveFile(w http.ResponseWriter, r *http.Request) {
 
 	//respond
 
-	s.serveJson(w, &response)
+	s.serveJSON(w, &response)
 
 }
 
 //Gets file from GridFS and writes to response body
 //GET:/api/v1/files/:fileName/:fileId handler
-func (s *Server) GetFile(w http.ResponseWriter, r *http.Request) {
+func (s *Server) getFile(w http.ResponseWriter, r *http.Request) {
 	s.logger.SetPrefix("GetFile: ")
 
 	//get file params
-	_, file_id := s.getFileParams(w, r)
+	_, fileID := s.getFileParams(w, r)
 
 	//get session
 	session := s.db.GetSession()
@@ -86,7 +79,7 @@ func (s *Server) GetFile(w http.ResponseWriter, r *http.Request) {
 	db := session.DB("")
 
 	//open file from GridFS
-	file, err := db.GridFS("fs").OpenId(bson.ObjectIdHex(file_id))
+	file, err := db.GridFS("fs").OpenId(bson.ObjectIdHex(fileID))
 	if err != nil {
 		s.internalError(r, w, err, "could not open file")
 	}

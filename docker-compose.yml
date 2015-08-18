@@ -1,0 +1,23 @@
+api:
+  build: .
+  working_dir: /go/src/github.com/hamsterhq/hamster
+  command: go run main.go
+  ports:
+    - "8686:8686"
+  volumes:
+    - .:/go/src/github.com/hamsterhq/hamster
+  links:
+    - redis
+    - mongodb
+  environment:
+    - MONGODB_URL=mongodb://mongodb:27017/hamster
+    - REDIS_URL=redis:6379
+    - SERVER_PORT=8686
+
+redis:
+  image: redis:latest
+  container_name: hamster_redis
+
+mongodb:
+  image: mongo:2.6
+  container_name: hamster_mongodb

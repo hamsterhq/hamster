@@ -1,8 +1,7 @@
-/*Toml config types*/
-package hamster
+package core
 
 /*.toml reader struct*/
-type Config struct {
+type config struct {
 	Title   string
 	Author  author
 	Servers map[string]server
@@ -24,7 +23,7 @@ type server struct {
 }
 
 type login struct {
-	Id     string
+	ID     string
 	Secret string
 }
 
@@ -37,7 +36,7 @@ type database struct {
 }
 
 type client struct {
-	Ip     string
+	IP     string
 	Secret string
 	Token  string
 }
